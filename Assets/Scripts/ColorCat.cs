@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 
 public class ColorCat : MonoBehaviour
 {
@@ -19,7 +18,7 @@ public class ColorCat : MonoBehaviour
         Count
     }
 
-    [Serializable]
+    [System.Serializable]
     public struct ColorSprite
     {
         public ColorType Color;
@@ -58,18 +57,6 @@ public class ColorCat : MonoBehaviour
                 colorSpriteDict.Add(ColorSprites[i].Color, ColorSprites[i].Sprite);
             }
         }
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void SetColor(ColorType newColor)

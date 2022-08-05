@@ -94,6 +94,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5916091752128626178}
   - component: {fileID: 5916091752128626189}
+  - component: {fileID: 1604530874}
+  - component: {fileID: 9213884144290293875}
   m_Layer: 0
   m_Name: Dog
   m_TagString: Untagged
@@ -129,3 +131,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efb84cdf1310a1f4a8bb66de99d57cbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &1604530874
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5916091752128626188}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: dbaedaa898217cb45b62ea51d87136c3, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &9213884144290293875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5916091752128626188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e94025a14d9e446b67074fb5755f42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clearAnimation: {fileID: 7400000, guid: 82c4bd01c5ca586458e2b999aa5463c2, type: 2}

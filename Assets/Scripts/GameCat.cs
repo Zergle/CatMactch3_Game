@@ -61,6 +61,13 @@ public class GameCat : MonoBehaviour
         get { return colorComponent; }
     }
 
+    //检测是否可清除
+    private ClearableCat clearableComponent;
+    public ClearableCat ClearableComponent
+    {
+        get { return clearableComponent; }
+    }
+
     #endregion
 
     private void Awake()
@@ -69,6 +76,8 @@ public class GameCat : MonoBehaviour
         movableComponent = GetComponent<MovableCat>();
 
         colorComponent = GetComponent<ColorCat>();
+
+        clearableComponent = GetComponent<ClearableCat>();
     }
 
     //Init方法用来初始化变量，参数分别是新生成cat的坐标，网格信息和cat种类，使用下划线进行区分
@@ -93,6 +102,11 @@ public class GameCat : MonoBehaviour
         return colorComponent != null;
     }
 
+    public bool IsClearable()
+    {
+        return clearableComponent != null;
+    }
+
     #region 鼠标事件
     //点击
     private void OnMouseDown()
@@ -110,7 +124,7 @@ public class GameCat : MonoBehaviour
     //松开
     private void OnMouseUp()
     {
-        grid.ReleaseCat();
+        grid.ReleaseCat(); //错误标记 OnMouseUp
     }
 
     //可以尝试用射线实现点击互换

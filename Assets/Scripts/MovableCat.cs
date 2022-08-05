@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //用于驱动元素动作
-
 public class MovableCat : MonoBehaviour
 {
     #region
@@ -21,18 +20,6 @@ public class MovableCat : MonoBehaviour
         cat = GetComponent<GameCat>();
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     //移动方法，参数是将要移动到的坐标
     public void Move(int newX, int newY, float time)
     {
@@ -44,7 +31,8 @@ public class MovableCat : MonoBehaviour
         moveCoroutine = MoveCoroutine(newX, newY, time);
         StartCoroutine(moveCoroutine);
     }
-
+    
+    //移动协程
     public IEnumerator MoveCoroutine(int newX, int newY, float time)
     {
         Vector3 startPos = transform.position;

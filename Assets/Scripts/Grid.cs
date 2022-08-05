@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 
 //用于生成棋盘和棋盘中的元素
 
@@ -25,7 +24,7 @@ public class Grid : MonoBehaviour
     //定义填充速度
     public float FillTime;
 
-    //定义猫爪数量
+    //定义狗的数量
     public int NumDogs;
 
     //判断元素能否斜着走
@@ -39,7 +38,7 @@ public class Grid : MonoBehaviour
     public GameObject backgroundPrefab;
 
     //定义结构CatPrefab用来连接预制件和元素种类
-    [Serializable]
+    [System.Serializable]
     public struct CatPrefab
     {
         public CatType type;
@@ -78,8 +77,8 @@ public class Grid : MonoBehaviour
                 GameObject background = (GameObject)Instantiate(backgroundPrefab, GetWorldPosition(x, y), Quaternion.identity);
 
                 //设置为网格的子对象，这里和原工程有出入，多设置了一个子对象进行分类防止出问题，先注释一下
-                background.transform.parent = GameObject.Find("BGs").transform;
-                /*background.transform.parent = transform;*/
+                /*background.transform.parent = GameObject.Find("BGs").transform;*/
+                background.transform.parent = transform;
             }
         }
 
@@ -93,7 +92,7 @@ public class Grid : MonoBehaviour
                 SpawnNewCat(x, y, CatType.Empty);
             }
         }
-        for(int x = 0;x<NumDogs; x++)
+        for (int x = 0; x < NumDogs; x++)
         {
             DogSpawner();
         }
@@ -115,8 +114,9 @@ public class Grid : MonoBehaviour
     public GameCat SpawnNewCat(int x,int y,CatType type)
     {
         GameObject newCat = (GameObject)Instantiate(catPrefabDict[type], GetWorldPosition(x, y), Quaternion.identity);
-        
-        newCat.transform.parent = GameObject.Find("Cats").transform;
+
+        /*newCat.transform.parent = GameObject.Find("Cats").transform;*/
+        newCat.transform.parent = transform;
 
         cats[x, y] = newCat.GetComponent<GameCat>();
 
@@ -228,7 +228,8 @@ public class Grid : MonoBehaviour
 
                 GameObject newCat = (GameObject)Instantiate(catPrefabDict[CatType.Normal], GetWorldPosition(x, -1), Quaternion.identity);
 
-                newCat.transform.parent = GameObject.Find("Cats").transform;
+                /*newCat.transform.parent = GameObject.Find("Cats").transform;*/
+                newCat.transform.parent = transform;
 
                 cats[x, 0] = newCat.GetComponent<GameCat>();
 
@@ -238,12 +239,8 @@ public class Grid : MonoBehaviour
 
                 cats[x, 0].ColorComponent.SetColor((ColorCat.ColorType)UnityEngine.Random.Range(0, cats[x, 0].ColorComponent.NumColors));
 
-
-
                 movedCat = true;
-            }
-            
-                
+            }    
         }
 
         return movedCat;
@@ -252,10 +249,18 @@ public class Grid : MonoBehaviour
     //执行动画
     public IEnumerator Fill()
     {
-        while (FillStep())
+        bool needsRefill = true;
+
+        while (needsRefill)
         {
-            inverse = !inverse;
             yield return new WaitForSeconds(FillTime);
+
+            while (FillStep())
+            {
+                inverse = !inverse;
+                yield return new WaitForSeconds(FillTime);
+            }
+            needsRefill = ClearValidMatches();
         }
     }
 
@@ -280,36 +285,6 @@ public class Grid : MonoBehaviour
     /// 两者同一轴且另一轴距离为1
     /// </summary>
 
-    public bool IsAdjacent(GameCat cat1, GameCat cat2)
-    {
-        return (cat1.X == cat2.X && (int)Mathf.Abs(cat1.Y - cat2.Y) == 1)
-            || (cat1.Y == cat2.Y && (int)Mathf.Abs(cat1.X - cat2.X) == 1);
-    }
-
-    //确认两个元素可以调换，且花纹匹配，调用移动方法进行移动，不匹配就换回去
-    public void SwapCats(GameCat cat1,GameCat cat2)
-    {
-        if (cat1.IsMovable() && cat2.IsMovable())
-        {
-            cats[cat1.X, cat1.Y] = cat2;
-            cats[cat2.X, cat2.Y] = cat1;
-
-            if (GetMatch(cat1, cat2.X, cat2.Y) != null || GetMatch(cat2, cat1.X, cat1.Y) != null) 
-            {
-                int cat1X = cat1.X;
-                int cat1Y = cat1.Y;
-
-                cat1.MovableComponent.Move(cat2.X, cat2.Y, FillTime);
-                cat2.MovableComponent.Move(cat1X, cat1Y, FillTime);
-            }
-            else
-            {
-                cats[cat1.X, cat1.Y] = cat1;
-                cats[cat2.X, cat2.Y] = cat2;
-            }
-        }
-    }
-
     //鼠标状态事件方法们
     #region 
     public void PressCat(GameCat cat)
@@ -329,27 +304,69 @@ public class Grid : MonoBehaviour
         {
             SwapCats(pressedCat, enteredCat);
         }
-    }
-#endregion 
 
-    //匹配方法，参数是预计移动的位置，返回匹配的元素列表，如果不匹配则返回空
+    }
+    #endregion
+
+    //检查相邻方法，两元素同轴且另一轴差值为1
+    public bool IsAdjacent(GameCat cat1, GameCat cat2)
+    {
+        return (cat1.X == cat2.X && (int)Mathf.Abs(cat1.Y - cat2.Y) == 1)
+            || (cat1.Y == cat2.Y && (int)Mathf.Abs(cat1.X - cat2.X) == 1);
+    }
+
+    //调换元素方法，参数为两个cat，两者可移动且花纹匹配，则调用移动方法进行移动，然后消除再填充，否则不动
+    public void SwapCats(GameCat cat1, GameCat cat2)
+    {
+        if (cat1.IsMovable() && cat2.IsMovable())
+        {
+            //给两个元素在数组里分配位置（交换后的）
+            cats[cat1.X, cat1.Y] = cat2;
+            cats[cat2.X, cat2.Y] = cat1;
+
+            if (GetMatch(cat1, cat2.X, cat2.Y) != null || GetMatch(cat2, cat1.X, cat1.Y) != null) //错误标记 SwapCat
+            {
+                //保存cat1的原坐标
+                int cat1X = cat1.X;
+                int cat1Y = cat1.Y;
+
+                cat1.MovableComponent.Move(cat2.X, cat2.Y, FillTime);
+                cat2.MovableComponent.Move(cat1X, cat1Y, FillTime);
+
+                ClearValidMatches();
+
+                StartCoroutine(Fill());
+            }
+            else
+            {
+                cats[cat1.X, cat1.Y] = cat1;
+                cats[cat2.X, cat2.Y] = cat2;
+            }
+        }
+    }
+
+    //匹配方法，参数是要移动的元素和预计移动的位置，返回匹配的元素列表，如果不匹配则返回空
     public List<GameCat> GetMatch(GameCat cat,int newX,int newY)
     {
         if (cat.IsColored())
         {
-            //从颜色组件信息判断颜色是否相符，是的话就保存到列表
+            //获取cat的颜色类型
             ColorCat.ColorType color = cat.ColorComponent.Color;
+            
+            //行、列和终极匹配遍历列表
             List<GameCat> horizontalCats = new List<GameCat>();
             List<GameCat> verticalCats = new List<GameCat>();
             List<GameCat> matchingCats = new List<GameCat>();
 
             #region 水平方向检测
-            //水平方向检测
+
+            //水平方向遍历，将当前元素添加到列表作为基准点
             horizontalCats.Add(cat);
+
             //dir是方向，为0时向左，为1时向右，左一遍右一遍，全部遍历完毕
             for(int dir = 0; dir <= 1; dir++)
             {
-                //xoffeset是相邻块到中心点的距离，从最近的开始直到边界
+                //xOffeset是对基准坐标的偏离距离，依次向左或右，直到边界
                 for(int xOffeset = 1; xOffeset < xDim; xOffeset++)
                 {
                     //当前检查到的位置
@@ -372,7 +389,7 @@ public class Grid : MonoBehaviour
                         break;
                     }
 
-                    //最终检查结果
+                    //最终检查结果x，行遍历中newY不变，此坐标元素颜色匹配则加入到列表中
                     if (cats[x, newY].IsColored() && cats[x, newY].ColorComponent.Color == color)
                     {
                         horizontalCats.Add(cats[x, newY]);
@@ -395,6 +412,7 @@ public class Grid : MonoBehaviour
 
             //如果水平方向上符合条件的话，添加一个垂直检查，实现L,T型联合消除
             #region L和T型匹配
+
             if (horizontalCats.Count >= 3)
             {
                 for(int i = 0; i < horizontalCats.Count; i++)
@@ -453,6 +471,7 @@ public class Grid : MonoBehaviour
             {
                 return matchingCats;
             }
+
             #endregion 水平方向检测结束
 
             //先清除上一轮检查结果
@@ -471,12 +490,12 @@ public class Grid : MonoBehaviour
                     //当前检查到的位置
                     int y;
 
-                    //方向向左
+                    //方向向上
                     if (dir == 0)
                     {
                         y = newY - yOffeset;
                     }
-                    //向右
+                    //向下
                     else
                     {
                         y = newY + yOffeset;
@@ -509,7 +528,7 @@ public class Grid : MonoBehaviour
                 }
             }
 
-            //如果水平方向上符合条件的话，添加一个水平检查，实现L,T型联合消除
+            //如果垂直方向上符合条件的话，添加一个水平检查，实现L,T型联合消除
             #region L和T型检查
 
             if (verticalCats.Count >= 3)
@@ -523,11 +542,11 @@ public class Grid : MonoBehaviour
                             int x;
 
                             if (dir == 0)
-                            {//向上
+                            {//向左
                                 x = newX - xOffeset;
                             }
                             else
-                            {//向下
+                            {//向右
                                 x = newX + xOffeset;
                             }
                             if (x < 0 || x >= xDim)
@@ -537,7 +556,7 @@ public class Grid : MonoBehaviour
                             //符合条件加到垂直匹配列表
                             if (cats[x, verticalCats[i].Y].IsColored() && cats[x, verticalCats[i].Y].ColorComponent.Color == color) 
                             {
-                                verticalCats.Add(cats[x, verticalCats[i].Y]);
+                                horizontalCats.Add(cats[x, verticalCats[i].Y]);//错误标记 GetMatch
                             }
                             else
                             {
@@ -574,7 +593,87 @@ public class Grid : MonoBehaviour
             #endregion 垂直方向检测结束
 
         }
+
         //都不符合，返回空
         return null;
+    }
+
+    //清除roll出来的可清除元素
+    public bool ClearValidMatches()
+    {
+        bool needsRefill = false;
+
+        for(int y = 0; y < yDim; y++)
+        {
+            for(int x = 0; x < xDim; x++)
+            {
+                if (cats[x, y].IsClearable())
+                {
+                    List<GameCat> match = GetMatch(cats[x, y], x, y);
+
+                    if(match != null)
+                    {
+                        for(int i = 0; i < match.Count; i++)
+                        {
+                            if (ClearCat(match[i].X, match[i].Y))
+                            {
+                                needsRefill = true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return needsRefill;
+    }
+
+    //清除
+    public bool ClearCat(int x, int y)
+    {
+        if (cats[x, y].IsClearable() && !cats[x, y].ClearableComponent.IsBeingCleared) 
+        {
+            cats[x, y].ClearableComponent.Clear();
+            
+            SpawnNewCat(x, y, CatType.Empty);
+            
+            ClearDogs(x, y);
+            
+            return true;
+        
+        }
+        
+        return false;
+        
+    }
+
+    //清除障碍物dog
+    public void ClearDogs(int x,int y)
+    {
+        for(int adjacentX = x - 1; adjacentX <= x + 1; adjacentX++)
+        {
+            if (adjacentX != x && adjacentX >= 0 && adjacentX < xDim)
+            {
+                if (cats[adjacentX, y].Type == CatType.Dog && cats[adjacentX, y].IsClearable())  
+                {
+                    cats[adjacentX, y].ClearableComponent.Clear();
+
+                    SpawnNewCat(adjacentX, y, CatType.Empty);
+                }
+            }
+        }
+
+        for(int adjacentY = y - 1; adjacentY <= y + 1; adjacentY++)
+        {
+            if(adjacentY != y && adjacentY >= 0 && adjacentY < yDim)
+            {
+                if (cats[x, adjacentY].Type == CatType.Dog && cats[x, adjacentY].IsClearable()) 
+                {
+                    cats[x, adjacentY].ClearableComponent.Clear();
+
+                    SpawnNewCat(x,adjacentY, CatType.Empty);
+                }
+            }
+        }
     }
 }
