@@ -13,7 +13,13 @@ public class Grid : MonoBehaviour
     {
         Normal,
         Dog,
+        //整行清除
+        RowClear,
+        //整列清除
+        ColClear,
+        //用于计数
         Count,
+        //空元素
         Empty
     }
 
@@ -51,7 +57,7 @@ public class Grid : MonoBehaviour
     //定义数组CatPrefabs存储结构
     public CatPrefab[] CatPrefabs;
 
-    //定义二维数组cats承载元素
+    //定义二维数组cats承载元素，修改了权限，原本是private
     private GameCat[,] cats;
 
     #endregion
@@ -333,7 +339,23 @@ public class Grid : MonoBehaviour
                 cat1.MovableComponent.Move(cat2.X, cat2.Y, FillTime);
                 cat2.MovableComponent.Move(cat1X, cat1Y, FillTime);
 
+                //清除随机生成的可消除元素
                 ClearValidMatches();
+
+                //当交换特殊元素时，涉及到的元素全部清除
+                if (cat1.Type == CatType.RowClear || cat1.Type == CatType.ColClear)
+                {
+                    ClearCat(cat1.X, cat1.Y);
+                }
+
+                if (cat2.Type == CatType.RowClear || cat2.Type == CatType.ColClear)
+                {
+                    ClearCat(cat2.X, cat2.Y);
+                }
+
+                //滑动后，将选项归零
+                pressedCat = null;
+                enteredCat = null;
 
                 StartCoroutine(Fill());
             }
@@ -598,7 +620,7 @@ public class Grid : MonoBehaviour
         return null;
     }
 
-    //清除roll出来的可清除元素
+    //清除roll出来的可清除元素，同时创建特殊元素
     public bool ClearValidMatches()
     {
         bool needsRefill = false;
@@ -607,17 +629,58 @@ public class Grid : MonoBehaviour
         {
             for(int x = 0; x < xDim; x++)
             {
+                //遍历棋盘，将所有猫猫送去匹配
                 if (cats[x, y].IsClearable())
                 {
                     List<GameCat> match = GetMatch(cats[x, y], x, y);
 
                     if(match != null)
                     {
+                        //匹配成功，生成待统计的随机特别猫猫
+                        CatType specialCatType = CatType.Count;
+
+                        GameCat randomCat = match[Random.Range(0, match.Count)];
+
+                        int specialCatX = randomCat.X;
+                        int specialCatY = randomCat.Y;
+
+                        if(match.Count == 4)
+                        {
+                            //如果是随机消除的，随机生成
+                            if (pressedCat == null || enteredCat == null)
+                            {
+                                specialCatType = (CatType)Random.Range((int)CatType.RowClear, (int)CatType.ColClear);
+                            }else if (pressedCat.Y == enteredCat.Y)
+                            {//同行互换生成整行清除
+                                specialCatType = CatType.RowClear;
+                            }
+                            else
+                            {//同列互换生成整列
+                                specialCatType = CatType.ColClear;
+                            }
+                        }
+
                         for(int i = 0; i < match.Count; i++)
                         {
                             if (ClearCat(match[i].X, match[i].Y))
                             {
                                 needsRefill = true;
+
+                                if (match[i] == pressedCat || match[i] == enteredCat)
+                                {
+                                    specialCatX = match[i].X;
+                                    specialCatY = match[i].Y;
+                                }
+                            }
+                        }
+                        if (specialCatType != CatType.Count)
+                        {
+                            Destroy(cats[specialCatX, specialCatY]);
+                            GameCat newCat = SpawnNewCat(specialCatX, specialCatY, specialCatType);
+
+                            if ((specialCatType == CatType.RowClear || specialCatType == CatType.ColClear && newCat.IsClearable() && match[0].IsColored()))
+                            {
+                                newCat.ColorComponent.SetColor(match[0].ColorComponent.Color);
                             }
                         }
                     }

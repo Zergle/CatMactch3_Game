@@ -155,15 +155,19 @@ MonoBehaviour:
   xDim: 9
   yDim: 9
   FillTime: 0.1
-  NumDogs: 7
+  NumDogs: 0
   backgroundPrefab: {fileID: 3747710881366422177, guid: f62ef3f359730984c8b60cf62b6cab55, type: 3}
   CatPrefabs:
-  - type: 3
+  - type: 5
     prefab: {fileID: 5804992497190911608, guid: cadb0fe48fac04d41a7e09fabb2efd96, type: 3}
   - type: 0
     prefab: {fileID: 8078503057642114833, guid: 449f5a6f04976f045bc768512a43e9d7, type: 3}
   - type: 1
     prefab: {fileID: 5916091752128626188, guid: 34c43e8b1fd220b42a85308ad33b8007, type: 3}
+  - type: 2
+    prefab: {fileID: 1612959442514476957, guid: 8132eb46b50f6dc4f87908f9a856e6b3, type: 3}
+  - type: 3
+    prefab: {fileID: 3305608864832716075, guid: 66d29fa207f5a274883fe9ed6328387a, type: 3}
 --- !u!4 &320788579
 Transform:
   m_ObjectHideFlags: 0
