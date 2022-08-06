@@ -23,7 +23,7 @@ public class ClearableCat : MonoBehaviour
     }
 
     //清除的方法
-    public void Clear()
+    public virtual void Clear()
     {
         isBeingCleared = true;
         StartCoroutine(ClearCoroutine());

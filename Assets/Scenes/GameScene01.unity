@@ -152,10 +152,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4a51b9badfb9d24290ecd1725a70299, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  xDim: 9
+  xDim: 16
   yDim: 9
   FillTime: 0.1
-  NumDogs: 0
+  NumDogs: 5
   backgroundPrefab: {fileID: 3747710881366422177, guid: f62ef3f359730984c8b60cf62b6cab55, type: 3}
   CatPrefabs:
   - type: 5

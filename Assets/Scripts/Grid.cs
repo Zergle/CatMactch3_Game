@@ -678,7 +678,8 @@ public class Grid : MonoBehaviour
                             Destroy(cats[specialCatX, specialCatY]);
                             GameCat newCat = SpawnNewCat(specialCatX, specialCatY, specialCatType);
 
-                            if ((specialCatType == CatType.RowClear || specialCatType == CatType.ColClear && newCat.IsClearable() && match[0].IsColored()))
+                            if ((specialCatType == CatType.RowClear || specialCatType == CatType.ColClear 
+                                && newCat.IsClearable() && match[0].IsColored()))
                             {
                                 newCat.ColorComponent.SetColor(match[0].ColorComponent.Color);
                             }
@@ -737,6 +738,24 @@ public class Grid : MonoBehaviour
                     SpawnNewCat(x,adjacentY, CatType.Empty);
                 }
             }
+        }
+    }
+
+    //清除行
+    public void ClearRow(int row)
+    {
+        for(int x= 0; x < xDim; x++)
+        {
+            ClearCat(x, row);
+        }
+    }
+
+    //清除列
+    public void ClearCol(int col)
+    {
+        for(int y= 0; y < yDim; y++)
+        {
+            ClearCat(col, y);
         }
     }
 }

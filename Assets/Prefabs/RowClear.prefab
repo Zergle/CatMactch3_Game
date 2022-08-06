@@ -97,8 +97,8 @@ GameObject:
   - component: {fileID: 7686931590632706893}
   - component: {fileID: 4637508849465263689}
   - component: {fileID: 4526151166003078705}
-  - component: {fileID: 8005010938033243686}
   - component: {fileID: 4526151166003078710}
+  - component: {fileID: -1152149334990598118}
   m_Layer: 0
   m_Name: RowClear
   m_TagString: Untagged
@@ -199,19 +199,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.7, y: 1.7}
   m_EdgeRadius: 0
---- !u!114 &8005010938033243686
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1612959442514476957}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35e94025a14d9e446b67074fb5755f42, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  clearAnimation: {fileID: 7400000, guid: ee5355acd78545e40a84841ea483a164, type: 2}
 --- !u!95 &4526151166003078710
 Animator:
   serializedVersion: 4
@@ -232,3 +219,17 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &-1152149334990598118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1612959442514476957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb50a5595a241ae4bba3ea3e38db3adf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clearAnimation: {fileID: 7400000, guid: 4397e6bb625bf6e4fa6082aced660ab1, type: 2}
+  IsRow: 1
