@@ -2,8 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 存储元素花色，赋予元素花色
+/// </summary>
 public class ColorCat : MonoBehaviour
 {
+    #region 各种声明
     public enum ColorType
     {
         Cow,
@@ -43,6 +47,11 @@ public class ColorCat : MonoBehaviour
         get { return ColorSprites.Length; }
     }
 
+    #endregion
+
+    /// <summary>
+    /// 游戏启动时，将ColorSprites中的花色保存到字典
+    /// </summary>
     private void Awake()
     {
         spriteRenderer = transform.Find("Cat").GetComponent<SpriteRenderer>();
@@ -59,6 +68,10 @@ public class ColorCat : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 给元素上色，从字典中获取指定的花色类型替换到元素身上
+    /// </summary>
+    /// <param name="newColor">花色类型</param>
     public void SetColor(ColorType newColor)
     {
         color = newColor;

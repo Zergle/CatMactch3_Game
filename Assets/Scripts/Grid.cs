@@ -6,10 +6,9 @@ using UnityEngine;
 /// 棋盘脚本
 /// 设置游戏棋盘大小，生成棋盘，生成元素，消除元素
 /// </summary>
-
 public class Grid : MonoBehaviour
 {
-    #region 定义
+    #region 各种声明
 
     //定义游戏元素种类
     public enum CatType
@@ -62,11 +61,13 @@ public class Grid : MonoBehaviour
 
     #endregion
 
-    // Start is called before the first frame update
+    /// <summary>
+    /// 游戏启动时生成棋盘，给棋盘添加背景和空白元素，随后生成障碍物，然后填充其他游戏元素
+    /// </summary>
     void Start()
     {
         catPrefabDict = new Dictionary<CatType, GameObject>();
-        //遍历CatPrefabs数组，检查元素是否在字典中，没有则添加到字典
+        //遍历CatPrefabs数组，添加到字典
         for (int i = 0; i< CatPrefabs.Length; i++)
         {
             if (!catPrefabDict.ContainsKey(CatPrefabs[i].type))
@@ -88,7 +89,7 @@ public class Grid : MonoBehaviour
             }
         }
 
-        //遍历棋盘，添加游戏基本块
+        //遍历棋盘，添加EmptyCat，生成Dog，然后Fill填充其他游戏元素
         cats = new GameCat[xDim, yDim];
 
         for(int x = 0; x<xDim; x++)
@@ -106,17 +107,30 @@ public class Grid : MonoBehaviour
         StartCoroutine(Fill());
     }
 
-    //获取世界坐标
+    /// <summary>
+    /// 获取世界坐标
+    /// x轴中心点-1/2宽+当前值，y轴换符号同理
+    /// </summary>
+    /// <param name="x">物体当前的x</param>
+    /// <param name="y">物体当前的y</param>
+    /// <returns>返回一个计算后的vector2世界坐标</returns>
     public Vector2 GetWorldPosition(int x, int y)
     {
         return new Vector2(
-            //x轴中心点-1/2宽+当前值，y轴换符号同理
+
             transform.position.x - xDim / 2.0f + x,
             transform.position.y + yDim / 2.0f - y
+
             );
     }
 
-    //生成EmptyCat方法
+    /// <summary>
+    /// 生成EmptyCat，设置为Grid子对象
+    /// </summary>
+    /// <param name="x">当前位置的x</param>
+    /// <param name="y">当前位置的y</param>
+    /// <param name="type">生成的Cat类型</param>
+    /// <returns>在x,y位置返回EmptyCat</returns>
     public GameCat SpawnNewCat(int x,int y,CatType type)
     {
         GameObject newCat = (GameObject)Instantiate(catPrefabDict[type], GetWorldPosition(x, y), Quaternion.identity);
@@ -131,7 +145,10 @@ public class Grid : MonoBehaviour
         return cats[x, y];
     }
 
-    //填充正常方块的方法，返回值到Fill
+    /// <summary>
+    /// 填充正常元素，在游戏启动时调用
+    /// </summary>
+    /// <returns>返回布尔值movedCat到Fill协程，为真则顺利填充完毕</returns>
     public bool FillStep()
     {
         bool movedCat = false;
@@ -252,7 +269,10 @@ public class Grid : MonoBehaviour
         return movedCat;
     }
 
-    //执行动画
+    /// <summary>
+    /// 填充动画
+    /// </summary>
+    /// <returns>调用时执行协程</returns>
     public IEnumerator Fill()
     {
         bool needsRefill = true;
@@ -270,7 +290,10 @@ public class Grid : MonoBehaviour
         }
     }
 
-    //随机dog生成器
+    /// <summary>
+    /// 随机dog生成器
+    /// 从cats里随机抽取坐标生成Dog
+    /// </summary>
     public void DogSpawner()
     {
         System.Random dogPos = new System.Random();
@@ -289,8 +312,14 @@ public class Grid : MonoBehaviour
     // 检查拖动的元素是否相邻
     // 两者同一轴且另一轴距离为1
 
-    //鼠标状态事件方法们
-    #region 
+    #region 三个鼠标状态事件
+    /// <summary>
+    /// PressCat 参数是被点击的cat
+    /// EnterCat 参数是鼠标悬停的cat，
+    /// ReleaseCat 鼠标释放的时候对pressedCat和enteredCat进行比对和交换
+    /// </summary>
+    /// <param name="cat"></param>
+
     public void PressCat(GameCat cat)
     {
         pressedCat = cat;
@@ -301,7 +330,6 @@ public class Grid : MonoBehaviour
         enteredCat = cat;
     }
 
-    //鼠标释放事件，如果两者相邻，则执行SwapCats方法
     public void ReleaseCat()
     {
         if (IsAdjacent(pressedCat, enteredCat))
@@ -310,16 +338,26 @@ public class Grid : MonoBehaviour
         }
 
     }
-    #endregion
+    #endregion 三个鼠标状态事件
 
-    //检查相邻方法，两元素同轴且另一轴差值为1
+    /// <summary>
+    /// 检查元素间是否相邻，判断两元素是否同轴且另一轴差值为1
+    /// </summary>
+    /// <param name="cat1">被选中的cat1</param>
+    /// <param name="cat2">被选中的cat2</param>
+    /// <returns>返回计算后的值，为真则相邻</returns>
     public bool IsAdjacent(GameCat cat1, GameCat cat2)
     {
         return (cat1.X == cat2.X && (int)Mathf.Abs(cat1.Y - cat2.Y) == 1)
             || (cat1.Y == cat2.Y && (int)Mathf.Abs(cat1.X - cat2.X) == 1);
     }
 
-    //调换元素方法，参数为两个cat，两者可移动且花纹匹配，则调用移动方法进行移动，然后消除再填充，否则不动
+    /// <summary>
+    /// 调换元素
+    /// 两元素可移动且花纹匹配，则调换，然后调用ClearValidMatches()消除
+    /// </summary>
+    /// <param name="cat1">被选中的cat1</param>
+    /// <param name="cat2">被选中的cat2</param>
     public void SwapCats(GameCat cat1, GameCat cat2)
     {
         if (cat1.IsMovable() && cat2.IsMovable())
@@ -369,7 +407,6 @@ public class Grid : MonoBehaviour
 
                 #endregion Paw清除结束
 
-                //清除随机生成的可消除元素
                 ClearValidMatches();
 
                 //当交换特殊元素时，涉及到的元素全部清除
@@ -397,7 +434,13 @@ public class Grid : MonoBehaviour
         }
     }
 
-    //匹配方法，参数是要移动的元素和预计移动的位置，返回匹配的元素列表，如果不匹配则返回空
+    /// <summary>
+    /// 匹配方法
+    /// </summary>
+    /// <param name="cat">需要匹配的元素cat</param>
+    /// <param name="newX">预计转移的新坐标newX</param>
+    /// <param name="newY">预计转移的新坐标newY</param>
+    /// <returns>返回匹配的元素列表，不匹配返回空</returns>
     public List<GameCat> GetMatch(GameCat cat,int newX,int newY)
     {
         if (cat.IsColored())
@@ -650,7 +693,10 @@ public class Grid : MonoBehaviour
         return null;
     }
 
-    //清除roll出来的可清除元素，同时创建特殊元素
+    /// <summary>
+    /// 清除棋盘上达到3个的匹配元素，如果匹配数量达到4个及以上生成相应的特殊元素
+    /// </summary>
+    /// <returns>返回一个布尔值needsRefill，为真则匹配元素已消除，需要填充</returns>
     public bool ClearValidMatches()
     {
         bool needsRefill = false;
@@ -734,7 +780,12 @@ public class Grid : MonoBehaviour
         return needsRefill;
     }
 
-    //清除
+    /// <summary>
+    /// 清除指定元素，在原位置生成新的元素
+    /// </summary>
+    /// <param name="x">需要清除的元素的x</param>
+    /// <param name="y">需要清除的元素的y</param>
+    /// <returns>返回布尔值，为真则指定元素已清除</returns>
     public bool ClearCat(int x, int y)
     {
         if (cats[x, y].IsClearable() && !cats[x, y].ClearableComponent.IsBeingCleared) 
@@ -753,7 +804,12 @@ public class Grid : MonoBehaviour
         
     }
 
-    //清除障碍物dog
+    /// <summary>
+    /// 清除障碍物dog
+    /// 如果参数坐标相邻位置存在dog，则清除dog生成emptyCat
+    /// </summary>
+    /// <param name="x">被清除的元素的坐标x</param>
+    /// <param name="y">被清除的元素的坐标y</param>
     public void ClearDogs(int x,int y)
     {
         for(int adjacentX = x - 1; adjacentX <= x + 1; adjacentX++)
@@ -783,7 +839,10 @@ public class Grid : MonoBehaviour
         }
     }
 
-    //清除行，参数是y值，定位该行
+    /// <summary>
+    /// 清除行，遍历x轴调用ClearCat()清除整行
+    /// </summary>
+    /// <param name="row">y值，定位行</param>
     public void ClearRow(int row)
     {
         for(int x= 0; x < xDim; x++)
@@ -792,7 +851,10 @@ public class Grid : MonoBehaviour
         }
     }
 
-    //清除列，参数是x值，定位该列
+    /// <summary>
+    /// 清除列，遍历y轴调用ClearCat()清除整列
+    /// </summary>
+    /// <param name="col">x值，定位该列</param>
     public void ClearCol(int col)
     {
         for(int y= 0; y < yDim; y++)
@@ -801,10 +863,14 @@ public class Grid : MonoBehaviour
         }
     }
 
-    //清除同花，参数是和paw交换的花色
+    /// <summary>
+    /// 清除同花色
+    /// 遍历棋盘，如果遍历到的元素颜色和pawColor相同则消除
+    /// 选中的花色也是Paw则消除整个棋盘元素
+    /// </summary>
+    /// <param name="pawColor">与Paw发生交换的元素花色</param>
     public void ClearColor(ColorCat.ColorType pawColor)
     {
-        //遍历整个棋盘，如果遍历到的元素颜色和pawColor相同则消除，或者如果两个都是Paw则全屏消除
         for(int x = 0; x < xDim; x++)
         {
             for(int y = 0;y < yDim; y++)

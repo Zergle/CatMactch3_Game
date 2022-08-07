@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//用于驱动元素动作
+/// <summary>
+/// 给元素添加可移动属性
+/// </summary>
 public class MovableCat : MonoBehaviour
 {
-    #region
+    #region 各种声明
     //cat用来保存GameCat的信息
     private GameCat cat;
 
@@ -14,13 +16,20 @@ public class MovableCat : MonoBehaviour
 
     #endregion
 
+    /// <summary>
+    /// 游戏启动时获取组件信息，具有movable组件，就是可移动元素
+    /// </summary>
     private void Awake()
     {
-        //如果元素具备movable组件，那么就是可移动的元素
         cat = GetComponent<GameCat>();
     }
 
-    //移动方法，参数是将要移动到的坐标
+    /// <summary>
+    /// 移动，调用协程进行动画
+    /// </summary>
+    /// <param name="newX">将要移动到的位置newX</param>
+    /// <param name="newY">将要移动到的位置newY</param>
+    /// <param name="time">动画时长</param>
     public void Move(int newX, int newY, float time)
     {
         if(moveCoroutine != null)
@@ -29,10 +38,17 @@ public class MovableCat : MonoBehaviour
         }
 
         moveCoroutine = MoveCoroutine(newX, newY, time);
+
         StartCoroutine(moveCoroutine);
     }
-    
-    //移动协程
+
+    /// <summary>
+    /// 移动协程
+    /// </summary>
+    /// <param name="newX">将要移动到的位置newX</param>
+    /// <param name="newY">将要移动到的位置newY</param>
+    /// <param name="time">动画时长</param>
+    /// <returns></returns>
     public IEnumerator MoveCoroutine(int newX, int newY, float time)
     {
         Vector3 startPos = transform.position;
