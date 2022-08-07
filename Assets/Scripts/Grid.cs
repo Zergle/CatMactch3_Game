@@ -2,7 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//用于生成棋盘和棋盘中的元素
+/// <summary>
+/// 棋盘脚本
+/// 设置游戏棋盘大小，生成棋盘，生成元素，消除元素
+/// </summary>
 
 public class Grid : MonoBehaviour
 {
@@ -281,12 +284,10 @@ public class Grid : MonoBehaviour
         SpawnNewCat(dogX, dogY, CatType.Dog);
     }
 
-    /// <summary>
-    /// 不随机dog生成器，占位
-    /// 想法是传入二维数组，然后获取里面的坐标执行方法
-    /// 检查拖动的元素是否相邻
-    /// 两者同一轴且另一轴距离为1
-    /// </summary>
+    //不随机dog生成器，占位
+    // 想法是传入二维数组，然后获取里面的坐标执行方法
+    // 检查拖动的元素是否相邻
+    // 两者同一轴且另一轴距离为1
 
     //鼠标状态事件方法们
     #region 
