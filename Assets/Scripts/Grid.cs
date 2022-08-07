@@ -13,14 +13,11 @@ public class Grid : MonoBehaviour
     {
         Normal,
         Dog,
-        //整行清除
-        RowClear,
-        //整列清除
-        ColClear,
-        //用于计数
-        Count,
-        //空元素
-        Empty
+        Paw, //清除同花
+        RowClear, //整行清除
+        ColClear, //整列清除
+        Count, //用于计数
+        Empty //空元素
     }
 
     //定义棋盘宽高
@@ -330,14 +327,46 @@ public class Grid : MonoBehaviour
             cats[cat1.X, cat1.Y] = cat2;
             cats[cat2.X, cat2.Y] = cat1;
 
-            if (GetMatch(cat1, cat2.X, cat2.Y) != null || GetMatch(cat2, cat1.X, cat1.Y) != null) //错误标记 SwapCat
+            //调用GetMatch进行匹配，参数是元素和预计坐标，如果存在Paw则直接下一步
+            if (GetMatch(cat1, cat2.X, cat2.Y) != null || GetMatch(cat2, cat1.X, cat1.Y) != null
+                || cat1.Type == CatType.Paw || cat2.Type == CatType.Paw)  
             {
                 //保存cat1的原坐标
                 int cat1X = cat1.X;
                 int cat1Y = cat1.Y;
 
+                //交换
                 cat1.MovableComponent.Move(cat2.X, cat2.Y, FillTime);
                 cat2.MovableComponent.Move(cat1X, cat1Y, FillTime);
+
+                #region Paw清除
+                if (cat1.Type == CatType.Paw && cat1.IsClearable() && cat2.IsColored()) 
+                {
+                    //声明colorClear将cat2的颜色保存到Paw
+                    ColorClear colorClear = cat1.GetComponent<ColorClear>();
+
+                    if (colorClear)
+                    {
+                        colorClear.PawColor = cat2.ColorComponent.Color;
+                    }
+
+                    ClearCat(cat1.X, cat1.Y);
+                }
+
+                if (cat2.Type == CatType.Paw && cat2.IsClearable() && cat1.IsColored())
+                {
+                    //声明colorClear将cat2的颜色保存到Paw
+                    ColorClear colorClear = cat2.GetComponent<ColorClear>();
+
+                    if (colorClear)
+                    {
+                        colorClear.PawColor = cat1.ColorComponent.Color;
+                    }
+
+                    ClearCat(cat2.X, cat2.Y);
+                }
+
+                #endregion Paw清除结束
 
                 //清除随机生成的可消除元素
                 ClearValidMatches();
@@ -629,21 +658,23 @@ public class Grid : MonoBehaviour
         {
             for(int x = 0; x < xDim; x++)
             {
-                //遍历棋盘，将所有猫猫送去匹配
+                //遍历棋盘，定义match列表，把所有cat送去匹配，参数是遍历到的cat和坐标
                 if (cats[x, y].IsClearable())
                 {
                     List<GameCat> match = GetMatch(cats[x, y], x, y);
 
+                    //如果遍历的结果不为空，使用Count类型声明specialCatType进行统计
                     if(match != null)
                     {
-                        //匹配成功，生成待统计的随机特别猫猫
                         CatType specialCatType = CatType.Count;
 
+                        //从match列表里随机获取一个cat以及坐标，在条件符合的时候将它生成为特殊元素
                         GameCat randomCat = match[Random.Range(0, match.Count)];
 
                         int specialCatX = randomCat.X;
                         int specialCatY = randomCat.Y;
 
+                        //匹配成功的数量为4，生成RowClear,ColClear
                         if(match.Count == 4)
                         {
                             //如果是随机消除的，随机生成
@@ -659,7 +690,13 @@ public class Grid : MonoBehaviour
                                 specialCatType = CatType.ColClear;
                             }
                         }
+                        //匹配数量大等于5生成Paw
+                        else if(match.Count >= 5)
+                        {
+                            specialCatType = CatType.Paw;
+                        }
 
+                        //消除之后判断填充，这里没太明白，之后再看
                         for(int i = 0; i < match.Count; i++)
                         {
                             if (ClearCat(match[i].X, match[i].Y))
@@ -676,12 +713,16 @@ public class Grid : MonoBehaviour
                         if (specialCatType != CatType.Count)
                         {
                             Destroy(cats[specialCatX, specialCatY]);
+
                             GameCat newCat = SpawnNewCat(specialCatX, specialCatY, specialCatType);
 
                             if ((specialCatType == CatType.RowClear || specialCatType == CatType.ColClear 
                                 && newCat.IsClearable() && match[0].IsColored()))
                             {
                                 newCat.ColorComponent.SetColor(match[0].ColorComponent.Color);
+                            }else if(specialCatType == CatType.Paw && newCat.IsColored())
+                            {
+                                newCat.ColorComponent.SetColor(ColorCat.ColorType.Any);
                             }
                         }
                     }
@@ -741,7 +782,7 @@ public class Grid : MonoBehaviour
         }
     }
 
-    //清除行
+    //清除行，参数是y值，定位该行
     public void ClearRow(int row)
     {
         for(int x= 0; x < xDim; x++)
@@ -750,12 +791,29 @@ public class Grid : MonoBehaviour
         }
     }
 
-    //清除列
+    //清除列，参数是x值，定位该列
     public void ClearCol(int col)
     {
         for(int y= 0; y < yDim; y++)
         {
             ClearCat(col, y);
+        }
+    }
+
+    //清除同花，参数是和paw交换的花色
+    public void ClearColor(ColorCat.ColorType pawColor)
+    {
+        //遍历整个棋盘，如果遍历到的元素颜色和pawColor相同则消除，或者如果两个都是Paw则全屏消除
+        for(int x = 0; x < xDim; x++)
+        {
+            for(int y = 0;y < yDim; y++)
+            {
+                if (cats[x, y].IsColored() && (cats[x, y].ColorComponent.Color == pawColor)
+                    || pawColor == ColorCat.ColorType.Any) 
+                {
+                    ClearCat(x, y);
+                }
+            }
         }
     }
 }
