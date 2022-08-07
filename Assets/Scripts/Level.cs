@@ -36,18 +36,6 @@ public class Level : MonoBehaviour
 
     #endregion
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public virtual void GameWin()
     {
         Debug.Log("Win");
@@ -77,5 +65,16 @@ public class Level : MonoBehaviour
         currentScore += cat.Score;
 
         Debug.Log(currentScore);
+    }
+
+    /// <summary>
+    /// 百分比设置星级，达到分数一星，1.5倍二星，2倍三星
+    /// </summary>
+    /// <param name="targetScore">目标分数</param>
+    public void ScoreStar(int targetScore)
+    {
+        Score1Star = targetScore;
+        Score2Star = targetScore * 3 / 2;
+        Score3Star = targetScore * 2;
     }
 }

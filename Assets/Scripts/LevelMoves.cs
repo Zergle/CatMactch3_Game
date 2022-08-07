@@ -8,7 +8,7 @@ public class LevelMoves : Level
 
     public int NumMoves;
 
-    public int targetScore;
+    public int TargetScore;
 
     private int movesUsed = 0;
 
@@ -19,9 +19,9 @@ public class LevelMoves : Level
     {
         type = LevelType.Moves;
 
-        ScoreStar(targetScore);
+        ScoreStar(TargetScore);
 
-        Debug.Log($"剩余步数{NumMoves}，目标分数{targetScore}");
+        Debug.Log($"剩余步数{NumMoves}，目标分数{TargetScore}");
     }
 
     public override void OnMove()
@@ -34,7 +34,7 @@ public class LevelMoves : Level
 
         if(NumMoves - movesUsed == 0)
         {
-            if (currentScore >= targetScore)
+            if (currentScore >= TargetScore)
             {
                 GameWin();
             }
@@ -43,16 +43,5 @@ public class LevelMoves : Level
                 GameLose();
             }
         }
-    }
-
-    /// <summary>
-    /// 百分比设置星级，达到分数一星，1.5倍二星，2倍三星
-    /// </summary>
-    /// <param name="targetScore">目标分数</param>
-    public void ScoreStar(int targetScore)
-    {
-        Score1Star = targetScore;
-        Score2Star = targetScore * 3 / 2;
-        Score3Star = targetScore * 2;
     }
 }
