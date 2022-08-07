@@ -36,7 +36,7 @@ public class GameCat : MonoBehaviour
         }
     }
 
-    //添加一个type属性
+    //添加type属性
     private Grid.CatType type;
     public Grid.CatType Type
     {
@@ -50,26 +50,29 @@ public class GameCat : MonoBehaviour
         get { return grid; }
     }
 
-    //检测是否可移动
+    //是否可移动
     private MovableCat movableComponent;
     public MovableCat MovableComponent
     {
         get { return movableComponent; }
     }
 
-    //检测是否上色
+    //是否上色
     private ColorCat colorComponent;
     public ColorCat ColorComponent
     {
         get { return colorComponent; }
     }
 
-    //检测是否可清除
+    //是否可清除
     private ClearableCat clearableComponent;
     public ClearableCat ClearableComponent
     {
         get { return clearableComponent; }
     }
+
+    //设置每个元素的得分
+    public int Score;
 
     #endregion
 

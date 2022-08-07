@@ -29,7 +29,7 @@ public class Grid : MonoBehaviour
     //定义填充速度
     public float FillTime;
 
-    //定义狗的数量
+    //定义随机狗的数量
     public int NumDogs;
 
     //判断元素能否斜着走
@@ -59,12 +59,30 @@ public class Grid : MonoBehaviour
     //定义二维数组cats承载元素，修改了权限，原本是private
     private GameCat[,] cats;
 
+    //引用level
+    public Level _Level;
+
+    //游戏结束
+    private bool gameOver = false;
+
+    //获取每个元素的位置和类型
+    [System.Serializable]
+    public struct CatPosition
+    {
+        public CatType type;
+        public int x;
+        public int y;
+    }
+
+    //将位置保存到数组initialCats
+    public CatPosition[] initialCats;
+
     #endregion
 
     /// <summary>
     /// 游戏启动时生成棋盘，给棋盘添加背景和空白元素，随后生成障碍物，然后填充其他游戏元素
     /// </summary>
-    void Start()
+    void Awake()
     {
         catPrefabDict = new Dictionary<CatType, GameObject>();
         //遍历CatPrefabs数组，添加到字典
@@ -92,16 +110,34 @@ public class Grid : MonoBehaviour
         //遍历棋盘，添加EmptyCat，生成Dog，然后Fill填充其他游戏元素
         cats = new GameCat[xDim, yDim];
 
+        //在指定位置生成关卡指定的元素类型
+        for(int i = 0; i < initialCats.Length; i++)
+        {
+            if (initialCats[i].x >= 0 && initialCats[i].x < xDim 
+                && initialCats[i].y >= 0 && initialCats[i].y < yDim) 
+            {
+                SpawnNewCat(initialCats[i].x, initialCats[i].y, initialCats[i].type);
+            }
+        }
+
+        //生成EmptyCat
         for(int x = 0; x<xDim; x++)
         {
             for(int y = 0; y<yDim; y++)
             {
-                SpawnNewCat(x, y, CatType.Empty);
+                if (cats[x, y] == null)
+                {
+                    SpawnNewCat(x, y, CatType.Empty);
+                }
             }
         }
-        for (int x = 0; x < NumDogs; x++)
-        {
-            DogSpawner();
+
+        //如果NumDogs大于0，调用随机dog生成
+        if(NumDogs > 0) { 
+            for (int x = 0; x < NumDogs; x++)
+            {
+                DogSpawner();
+            }
         }
 
         StartCoroutine(Fill());
@@ -307,11 +343,6 @@ public class Grid : MonoBehaviour
         SpawnNewCat(dogX, dogY, CatType.Dog);
     }
 
-    //不随机dog生成器，占位
-    // 想法是传入二维数组，然后获取里面的坐标执行方法
-    // 检查拖动的元素是否相邻
-    // 两者同一轴且另一轴距离为1
-
     #region 三个鼠标状态事件
     /// <summary>
     /// PressCat 参数是被点击的cat
@@ -360,6 +391,11 @@ public class Grid : MonoBehaviour
     /// <param name="cat2">被选中的cat2</param>
     public void SwapCats(GameCat cat1, GameCat cat2)
     {
+        if (gameOver)
+        {
+            return;
+        }
+
         if (cat1.IsMovable() && cat2.IsMovable())
         {
             //给两个元素在数组里分配位置（交换后的）
@@ -425,6 +461,9 @@ public class Grid : MonoBehaviour
                 enteredCat = null;
 
                 StartCoroutine(Fill());
+
+                //在每次移动时，计数
+                _Level.OnMove();
             }
             else
             {
@@ -882,5 +921,11 @@ public class Grid : MonoBehaviour
                 }
             }
         }
+    }
+
+    //
+    public void GameOver()
+    {
+        gameOver = true;
     }
 }

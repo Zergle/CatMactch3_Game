@@ -8,6 +8,7 @@ using UnityEngine;
 public class Level : MonoBehaviour
 {
     #region 各种声明
+
     //关卡类型
     public enum LevelType
     {
@@ -16,8 +17,8 @@ public class Level : MonoBehaviour
         Moves
     }
 
-    //引用Grid信息，添加首字母区分
-    public Grid L_Grid;
+    //引用Grid信息
+    public Grid _Grid;
 
     //得分星星
     public int Score1Star;
@@ -50,11 +51,13 @@ public class Level : MonoBehaviour
     public virtual void GameWin()
     {
         Debug.Log("Win");
+        _Grid.GameOver();
     }
 
     public virtual void GameLose()
     {
         Debug.Log("Lose");
+        _Grid.GameOver();
     }
 
     /// <summary>
@@ -62,7 +65,7 @@ public class Level : MonoBehaviour
     /// </summary>
     public virtual void OnMove()
     {
-
+        Debug.Log("you moved");
     }
 
     /// <summary>
@@ -71,6 +74,7 @@ public class Level : MonoBehaviour
     /// <param name="cat"></param>
     public virtual void OnCatCleared(GameCat cat)
     {
-
+        currentScore += cat.Score;
+        Debug.Log(currentScore);
     }
 }

@@ -35,7 +35,11 @@ public class ClearableCat : MonoBehaviour
     /// </summary>
     public virtual void Clear()
     {
+        //清除时将信息反馈到OnCatCleared()
+        cat.GridRef._Level.OnCatCleared(cat);
+
         isBeingCleared = true;
+
         StartCoroutine(ClearCoroutine());
     }
 
