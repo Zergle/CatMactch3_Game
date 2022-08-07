@@ -7,7 +7,7 @@ public class LevelTimer : Level
     #region 各种声明
 
     //剩余时间
-    public int TimeInSeconds;
+    public int TimeLeft;
 
     //目标分数
     public int TargetScore;
@@ -27,7 +27,7 @@ public class LevelTimer : Level
 
         ScoreStar(TargetScore);
 
-        Debug.Log($"剩余时间：{TimeInSeconds}，目标分数：{TargetScore}");
+        Debug.Log($"剩余时间：{TimeLeft}，目标分数：{TargetScore}");
     }
 
     /// <summary>
@@ -39,18 +39,18 @@ public class LevelTimer : Level
         {
             timer += Time.deltaTime;
 
-            if (TimeInSeconds - timer <= 0)
+            if (TimeLeft - timer <= 0)
             {
                 if (currentScore >= TargetScore)
-                {
+                { 
                     GameWin();
                 }
                 else
                 {
                     GameLose();
                 }
-            }timeOut = true;
+                timeOut = true;
+            }
         }
-
     }
 }
