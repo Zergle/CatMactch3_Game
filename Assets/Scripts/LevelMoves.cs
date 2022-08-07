@@ -6,7 +6,7 @@ public class LevelMoves : Level
 {
     #region 各种声明
 
-    public int numMoves;
+    public int NumMoves;
 
     public int targetScore;
 
@@ -21,13 +21,7 @@ public class LevelMoves : Level
 
         ScoreStar(targetScore);
 
-        Debug.Log($"剩余步数{numMoves}，目标分数{targetScore}");
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Debug.Log($"剩余步数{NumMoves}，目标分数{targetScore}");
     }
 
     public override void OnMove()
@@ -36,9 +30,9 @@ public class LevelMoves : Level
 
         movesUsed++;
 
-        Debug.Log($"Moves remaining:{numMoves - movesUsed}");
+        Debug.Log($"Moves remaining:{NumMoves - movesUsed}");
 
-        if(numMoves - movesUsed == 0)
+        if(NumMoves - movesUsed == 0)
         {
             if (currentScore >= targetScore)
             {

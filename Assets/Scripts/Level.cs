@@ -69,12 +69,13 @@ public class Level : MonoBehaviour
     }
 
     /// <summary>
-    /// 更新分数
+    /// 更新分数，消除指定类型之后添加相应的分数
     /// </summary>
-    /// <param name="cat"></param>
+    /// <param name="cat">参数是消除的元素类型</param>
     public virtual void OnCatCleared(GameCat cat)
     {
         currentScore += cat.Score;
+
         Debug.Log(currentScore);
     }
 }

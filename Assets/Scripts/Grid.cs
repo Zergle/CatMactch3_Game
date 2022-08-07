@@ -30,7 +30,7 @@ public class Grid : MonoBehaviour
     public float FillTime;
 
     //定义随机狗的数量
-    public int NumDogs;
+    public int NumRandomDogs;
 
     //判断元素能否斜着走
     private bool inverse = false;
@@ -74,7 +74,7 @@ public class Grid : MonoBehaviour
         public int y;
     }
 
-    //将位置保存到数组initialCats
+    //定义关卡开始时固定生成的元素类型和位置initialCats
     public CatPosition[] initialCats;
 
     #endregion
@@ -132,14 +132,13 @@ public class Grid : MonoBehaviour
             }
         }
 
-        //如果NumDogs大于0，调用随机dog生成
-        if(NumDogs > 0) { 
-            for (int x = 0; x < NumDogs; x++)
+        //如果NumRandomDogs大于0，调用随机dog生成
+        if(NumRandomDogs > 0) { 
+            for (int x = 0; x < NumRandomDogs; x++)
             {
                 DogSpawner();
             }
         }
-
         StartCoroutine(Fill());
     }
 
@@ -167,7 +166,7 @@ public class Grid : MonoBehaviour
     /// <param name="y">当前位置的y</param>
     /// <param name="type">生成的Cat类型</param>
     /// <returns>在x,y位置返回EmptyCat</returns>
-    public GameCat SpawnNewCat(int x,int y,CatType type)
+    public GameCat SpawnNewCat(int x, int y, CatType type)
     {
         GameObject newCat = (GameObject)Instantiate(catPrefabDict[type], GetWorldPosition(x, y), Quaternion.identity);
 
@@ -923,9 +922,35 @@ public class Grid : MonoBehaviour
         }
     }
 
-    //
+    /// <summary>
+    /// 游戏结束
+    /// </summary>
     public void GameOver()
     {
         gameOver = true;
+    }
+
+    /// <summary>
+    /// 获取指定元素数量，逐个添加到列表
+    /// 遍历棋盘，将每个元素的类型进行比对，符合条件添加到列表catsOfType
+    /// </summary>
+    /// <param name="type">需要比对的元素类型</param>
+    /// <returns>返回比对后符合条件的元素列表</returns>
+    public List<GameCat> GetNumOfTypes(CatType type)
+    {
+        List<GameCat> numOfType = new List<GameCat>();
+
+        for(int x = 0; x < xDim; x++)
+        {
+            for(int y= 0;y<yDim; y++)
+            {
+                if (cats[x, y].Type == type)
+                {
+                    numOfType.Add(cats[x, y]);
+                }
+            }
+        }
+
+        return numOfType;
     }
 }
