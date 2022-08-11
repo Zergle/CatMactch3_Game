@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 设置游戏结束时的面板效果
+/// </summary>
 public class GameOver : MonoBehaviour
 {
     #region 各种声明
@@ -27,12 +30,6 @@ public class GameOver : MonoBehaviour
         {
             Stars[i].enabled = false;
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     /// <summary>
@@ -74,6 +71,11 @@ public class GameOver : MonoBehaviour
         StartCoroutine(ShowWinCoroutine(starCount));
     }
 
+    /// <summary>
+    /// 游戏胜利动画
+    /// </summary>
+    /// <param name="starCount">星星数量</param>
+    /// <returns></returns>
     private IEnumerator ShowWinCoroutine(int starCount)
     {
         yield return new WaitForSeconds(0.5f);
@@ -96,17 +98,28 @@ public class GameOver : MonoBehaviour
         ScoreText.enabled = true;
     }
 
+    /// <summary>
+    /// 重新加载本场景
+    /// </summary>
     public void ReplayButton()
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
 
     }
 
+    /// <summary>
+    /// 回到关卡选择界面
+    /// </summary>
+    /// <param name="levelName"></param>
     public void DoneButton(string levelName)
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene(levelName);
     }
 
+    /// <summary>
+    /// 加载下一关
+    /// </summary>
+    /// <param name="levelName"></param>
     public void NextButton(string levelName)
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene(levelName);

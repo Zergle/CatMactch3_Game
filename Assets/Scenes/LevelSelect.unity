@@ -1054,6 +1054,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cde4170ee340074c804b067c7a305c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Buttons:
+  - _GameObject: {fileID: 1660634832}
+    PlayerPrefKey: Level01
+  - _GameObject: {fileID: 1228797394}
+    PlayerPrefKey: Level02
+  - _GameObject: {fileID: 440901843}
+    PlayerPrefKey: Level03
 --- !u!1 &1322443160
 GameObject:
   m_ObjectHideFlags: 0

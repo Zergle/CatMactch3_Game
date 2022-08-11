@@ -25,13 +25,14 @@ public class Level : MonoBehaviour
     public int Score2Star;
     public int Score3Star;
 
+    //关卡属性
     protected LevelType type;
     public LevelType Type
     {
         get { return type; }
     }
 
-    //每关得分
+    //当前得分
     protected int currentScore;
 
     //HUD信息
@@ -44,13 +45,16 @@ public class Level : MonoBehaviour
 
     #region 方法们
 
+    /// <summary>
+    /// 游戏启动时开始计分
+    /// </summary>
     private void Start()
     {
         _HUD.SetScore(currentScore);
     }
 
     /// <summary>
-    /// 游戏胜利
+    /// 游戏胜利/失败，调用缓冲动画
     /// </summary>
     public virtual void GameWin()
     {
@@ -59,9 +63,6 @@ public class Level : MonoBehaviour
         StartCoroutine(WaitForGridFill());
     }
 
-    /// <summary>
-    /// 游戏失败
-    /// </summary>
     public virtual void GameLose()
     {
         _Grid.GameOver();
@@ -70,11 +71,11 @@ public class Level : MonoBehaviour
     }
 
     /// <summary>
-    /// 获取用户操作
+    /// 获取用户操作，在派生类中重写
     /// </summary>
     public virtual void OnMove()
     {
-        Debug.Log("you moved");
+        
     }
 
     /// <summary>
@@ -98,6 +99,10 @@ public class Level : MonoBehaviour
             Score3Star = target * 5 / 2;
     }
 
+    /// <summary>
+    /// 游戏结束时的缓冲动画
+    /// </summary>
+    /// <returns></returns>
     protected virtual IEnumerator WaitForGridFill()
     {
         while (_Grid.IsFilling)

@@ -18,16 +18,16 @@ public class HUD : MonoBehaviour
     public UnityEngine.UI.Image[] Stars;
 
     private int starID = 0;
-    private bool isGameOver = false;
 
     #endregion
 
     #region 方法们
 
-    // Start is called before the first frame update
+    /// <summary>
+    /// 游戏开始时设置星星
+    /// </summary>
     void Start()
     {
-        //设置星星
         for(int i = 0; i < Stars.Length; i++)
         {
             if(i == starID)
@@ -39,12 +39,6 @@ public class HUD : MonoBehaviour
                 Stars[i].enabled = false;
             }
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     /// <summary>
@@ -143,6 +137,11 @@ public class HUD : MonoBehaviour
     public void OnGameLose()
     {
         _GameOver.ShowLose();
+
+        if (starID > PlayerPrefs.GetInt(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name, 0))
+        {
+            PlayerPrefs.SetInt(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name, starID);
+        }
     }
 
     public void OnGameWin(int score)

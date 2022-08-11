@@ -12,12 +12,13 @@ public class LevelMoves : Level
 
     private int movesUsed = 0;
 
-
-
     #endregion
 
     #region 方法们
-    // Start is called before the first frame update
+
+    /// <summary>
+    /// 游戏开始时设置关卡类型，为HUD设置值
+    /// </summary>
     void Start()
     {
         type = LevelType.Moves;
@@ -26,8 +27,11 @@ public class LevelMoves : Level
 
         //给HUD设置值
         _HUD.SetLevelType(type);
+
         _HUD.SetScore(currentScore);
+
         _HUD.SetTarget(TargetScore);
+
         _HUD.SetRemaining(NumMoves);
     }
 
@@ -36,8 +40,6 @@ public class LevelMoves : Level
     /// </summary>
     public override void OnMove()
     {
-        base.OnMove();
-
         movesUsed++;
 
         _HUD.SetRemaining(NumMoves - movesUsed);

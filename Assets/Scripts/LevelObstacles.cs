@@ -50,8 +50,6 @@ public class LevelObstacles : Level
     /// </summary>
     public override void OnMove()
     {
-        base.OnMove();
-
         movesUsed++;
 
         _HUD.SetRemaining(NumMoves - movesUsed);
