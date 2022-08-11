@@ -102,14 +102,14 @@ public class GameOver : MonoBehaviour
 
     }
 
-    public void DoneButton()
+    public void DoneButton(string levelName)
     {
-
+        UnityEngine.SceneManagement.SceneManager.LoadScene(levelName);
     }
 
-    public void NextButton()
+    public void NextButton(string levelName)
     {
-
+        UnityEngine.SceneManagement.SceneManager.LoadScene(levelName);
     }
 
     #endregion

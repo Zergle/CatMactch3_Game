@@ -182,6 +182,14 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.64705884
       objectReference: {fileID: 0}
+    - target: {fileID: 5078777229049892507, guid: fee7fa9d2648a8e43b4bce27259da94f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5078777229049892507, guid: fee7fa9d2648a8e43b4bce27259da94f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: LevelSelect
+      objectReference: {fileID: 0}
     - target: {fileID: 6934331700100872582, guid: fee7fa9d2648a8e43b4bce27259da94f, type: 3}
       propertyPath: m_Type
       value: 1
