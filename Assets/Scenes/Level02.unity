@@ -260,6 +260,9 @@ MonoBehaviour:
   - type: 1
     x: 3
     y: 2
+  - type: 1
+    x: 5
+    y: 2
 --- !u!4 &446456307
 Transform:
   m_ObjectHideFlags: 0
@@ -562,7 +565,7 @@ MonoBehaviour:
   Score3Star: 150000
   _HUD: {fileID: 1660278037}
   NumMoves: 17
-  ObstacleTypes: 01000000010000000100000001000000010000000100000001000000
+  ObstacleTypes: 01000000
 --- !u!4 &1464389279
 Transform:
   m_ObjectHideFlags: 0

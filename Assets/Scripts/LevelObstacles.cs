@@ -33,19 +33,16 @@ public class LevelObstacles : Level
         type = LevelType.Obstacle;
 
         //从地图上遍历找到障碍物数量
-        if(ObstacleTypes != null)
+        for (int i = 0; i < ObstacleTypes.Length; i++)
         {
-            for (int i = 0; i < ObstacleTypes.Length; i++)
-            {
-                numObstaclesLeft += _Grid.GetNumOfTypes(ObstacleTypes[i]).Count;
-            }
+            numObstaclesLeft += _Grid.GetNumOfTypes(ObstacleTypes[i]).Count;
         }
 
         //设置HUD，类型、得分、剩余、目标
         _HUD.SetLevelType(type);
         _HUD.SetScore(currentScore);
-        _HUD.SetRemaining(numObstaclesLeft);
-        _HUD.SetTarget(NumMoves);
+        _HUD.SetRemaining(NumMoves);
+        _HUD.SetTarget(numObstaclesLeft);
     }
 
     /// <summary>

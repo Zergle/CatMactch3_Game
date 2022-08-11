@@ -90,9 +90,9 @@ public class Level : MonoBehaviour
     /// <param name="targetScore">目标分数</param>
     public void ScoreStar(int target)
     {
-            Score1Star = target;
-            Score2Star = target * 3 / 2;
-            Score3Star = target * 2;
+            Score1Star = target * 3 / 2;
+            Score2Star = target * 2;
+            Score3Star = target * 5 / 2;
     }
 
     #endregion
