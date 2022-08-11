@@ -65,6 +65,13 @@ public class Grid : MonoBehaviour
     //游戏结束
     private bool gameOver = false;
 
+    //判断游戏是否还在继续
+    private bool isFilling = false;
+    public bool IsFilling
+    {
+        get { return isFilling; }
+    }
+
     //获取每个元素的位置和类型
     [System.Serializable]
     public struct CatPosition
@@ -313,6 +320,8 @@ public class Grid : MonoBehaviour
     {
         bool needsRefill = true;
 
+        isFilling = true;
+
         while (needsRefill)
         {
             yield return new WaitForSeconds(FillTime);
@@ -324,6 +333,8 @@ public class Grid : MonoBehaviour
             }
             needsRefill = ClearValidMatches();
         }
+
+        isFilling = false;
     }
 
     /// <summary>

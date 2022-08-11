@@ -8,6 +8,8 @@ public class HUD : MonoBehaviour
 
     public Level level;
 
+    public GameOver _GameOver;
+
     public TMPro.TMP_Text RemainingText;
     public TMPro.TMP_Text RemainingSubtext;
     public TMPro.TMP_Text TargetText;
@@ -138,14 +140,14 @@ public class HUD : MonoBehaviour
         }
     }
 
-    public void OnGameLose(int score)
+    public void OnGameLose()
     {
-        isGameOver = true;
+        _GameOver.ShowLose();
     }
 
     public void OnGameWin(int score)
     {
-        isGameOver = true;
+        _GameOver.ShowWin(score, starID);
     }
 
     #endregion

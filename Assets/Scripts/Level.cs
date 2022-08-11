@@ -37,6 +37,9 @@ public class Level : MonoBehaviour
     //HUD信息
     public HUD _HUD;
 
+    //胜利状态
+    protected bool won;
+
     #endregion
 
     #region 方法们
@@ -51,9 +54,9 @@ public class Level : MonoBehaviour
     /// </summary>
     public virtual void GameWin()
     {
-        Debug.Log("Win");
-        _HUD.OnGameWin(currentScore);
         _Grid.GameOver();
+        won = true;
+        StartCoroutine(WaitForGridFill());
     }
 
     /// <summary>
@@ -61,9 +64,9 @@ public class Level : MonoBehaviour
     /// </summary>
     public virtual void GameLose()
     {
-        Debug.Log("Lose");
-        _HUD.OnGameLose(currentScore);
         _Grid.GameOver();
+        won = false;
+        StartCoroutine(WaitForGridFill());
     }
 
     /// <summary>
@@ -93,6 +96,23 @@ public class Level : MonoBehaviour
             Score1Star = target * 3 / 2;
             Score2Star = target * 2;
             Score3Star = target * 5 / 2;
+    }
+
+    protected virtual IEnumerator WaitForGridFill()
+    {
+        while (_Grid.IsFilling)
+        {
+            yield return 0;
+        }
+
+        if (won)
+        {
+            _HUD.OnGameWin(currentScore);
+        }
+        else
+        {
+            _HUD.OnGameLose();
+        }
     }
 
     #endregion
