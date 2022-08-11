@@ -16,6 +16,7 @@ public class MovableCat : MonoBehaviour
 
     #endregion
 
+    #region 方法们
     /// <summary>
     /// 游戏启动时获取组件信息，具有movable组件，就是可移动元素
     /// </summary>
@@ -67,5 +68,5 @@ public class MovableCat : MonoBehaviour
         cat.transform.position = endPos;
     }
 
-
+    #endregion
 }

@@ -76,6 +76,7 @@ public class GameCat : MonoBehaviour
 
     #endregion
 
+    #region 方法们
     /// <summary>
     /// 游戏启动时获取其他组件信息到属性
     /// </summary>
@@ -153,6 +154,8 @@ public class GameCat : MonoBehaviour
     }
 
     //可以尝试用射线实现点击互换
+    #endregion
+
     #endregion
 }
 

@@ -12,8 +12,11 @@ public class LevelMoves : Level
 
     private int movesUsed = 0;
 
+
+
     #endregion
 
+    #region 方法们
     // Start is called before the first frame update
     void Start()
     {
@@ -21,16 +24,23 @@ public class LevelMoves : Level
 
         ScoreStar(TargetScore);
 
-        Debug.Log($"剩余步数{NumMoves}，目标分数{TargetScore}");
+        //给HUD设置值
+        _HUD.SetLevelType(type);
+        _HUD.SetScore(currentScore);
+        _HUD.SetTarget(TargetScore);
+        _HUD.SetRemaining(NumMoves);
     }
 
+    /// <summary>
+    /// 设置用户每次操作后的行为
+    /// </summary>
     public override void OnMove()
     {
         base.OnMove();
 
         movesUsed++;
 
-        Debug.Log($"Moves remaining:{NumMoves - movesUsed}");
+        _HUD.SetRemaining(NumMoves - movesUsed);
 
         if(NumMoves - movesUsed == 0)
         {
@@ -44,4 +54,6 @@ public class LevelMoves : Level
             }
         }
     }
+
+    #endregion
 }

@@ -34,17 +34,35 @@ public class Level : MonoBehaviour
     //每关得分
     protected int currentScore;
 
+    //HUD信息
+    public HUD _HUD;
+
     #endregion
 
+    #region 方法们
+
+    private void Start()
+    {
+        _HUD.SetScore(currentScore);
+    }
+
+    /// <summary>
+    /// 游戏胜利
+    /// </summary>
     public virtual void GameWin()
     {
         Debug.Log("Win");
+        _HUD.OnGameWin(currentScore);
         _Grid.GameOver();
     }
 
+    /// <summary>
+    /// 游戏失败
+    /// </summary>
     public virtual void GameLose()
     {
         Debug.Log("Lose");
+        _HUD.OnGameLose(currentScore);
         _Grid.GameOver();
     }
 
@@ -63,18 +81,19 @@ public class Level : MonoBehaviour
     public virtual void OnCatCleared(GameCat cat)
     {
         currentScore += cat.Score;
-
-        Debug.Log(currentScore);
+        _HUD.SetScore(currentScore);
     }
 
     /// <summary>
     /// 百分比设置星级，达到分数一星，1.5倍二星，2倍三星
     /// </summary>
     /// <param name="targetScore">目标分数</param>
-    public void ScoreStar(int targetScore)
+    public void ScoreStar(int target)
     {
-        Score1Star = targetScore;
-        Score2Star = targetScore * 3 / 2;
-        Score3Star = targetScore * 2;
+            Score1Star = target;
+            Score2Star = target * 3 / 2;
+            Score3Star = target * 2;
     }
+
+    #endregion
 }

@@ -79,6 +79,7 @@ public class Grid : MonoBehaviour
 
     #endregion
 
+    #region 方法们
     /// <summary>
     /// 游戏启动时生成棋盘，给棋盘添加背景和空白元素，随后生成障碍物，然后填充其他游戏元素
     /// </summary>
@@ -953,4 +954,6 @@ public class Grid : MonoBehaviour
 
         return numOfType;
     }
+
+    #endregion
 }

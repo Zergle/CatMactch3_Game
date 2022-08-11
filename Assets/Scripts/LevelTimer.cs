@@ -20,6 +20,7 @@ public class LevelTimer : Level
 
     #endregion
 
+    #region 方法们
     // Start is called before the first frame update
     void Start()
     {
@@ -27,7 +28,11 @@ public class LevelTimer : Level
 
         ScoreStar(TargetScore);
 
-        Debug.Log($"剩余时间：{TimeLeft}，目标分数：{TargetScore}");
+        //给HUD设置值
+        _HUD.SetLevelType(type);
+        _HUD.SetScore(currentScore);
+        _HUD.SetTarget(TargetScore);
+        _HUD.SetRemaining(string.Format("{0}:{1:00}", TimeLeft / 60, TimeLeft % 60));
     }
 
     /// <summary>
@@ -38,6 +43,8 @@ public class LevelTimer : Level
         if (!timeOut)
         {
             timer += Time.deltaTime;
+
+            _HUD.SetRemaining(string.Format("{0}:{1:00}", (int)Mathf.Max((TimeLeft - timer) / 60, 0), (int)Mathf.Max((TimeLeft - timer) % 60, 0)));
 
             if (TimeLeft - timer <= 0)
             {
@@ -53,4 +60,6 @@ public class LevelTimer : Level
             }
         }
     }
+
+    #endregion
 }
