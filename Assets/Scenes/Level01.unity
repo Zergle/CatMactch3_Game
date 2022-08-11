@@ -778,8 +778,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 811145231, guid: fee7fa9d2648a8e43b4bce27259da94f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6934331701922915276}
+    - target: {fileID: 811145231, guid: fee7fa9d2648a8e43b4bce27259da94f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ReplayButton
+      objectReference: {fileID: 0}
     - target: {fileID: 774665920779474611, guid: fee7fa9d2648a8e43b4bce27259da94f, type: 3}
       propertyPath: level
+      value: 
+      objectReference: {fileID: 207379075}
+    - target: {fileID: 774665920779474611, guid: fee7fa9d2648a8e43b4bce27259da94f, type: 3}
+      propertyPath: _Level
       value: 
       objectReference: {fileID: 207379075}
     - target: {fileID: 5078777229049892507, guid: fee7fa9d2648a8e43b4bce27259da94f, type: 3}

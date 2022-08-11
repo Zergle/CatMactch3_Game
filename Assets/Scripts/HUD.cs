@@ -6,15 +6,21 @@ public class HUD : MonoBehaviour
 {
     #region 各种声明
 
-    public Level level;
-
+    public Level _Level;
+    
     public GameOver _GameOver;
 
     public TMPro.TMP_Text RemainingText;
+
     public TMPro.TMP_Text RemainingSubtext;
+
     public TMPro.TMP_Text TargetText;
+
     public TMPro.TMP_Text TargetSubText;
+
     public TMPro.TMP_Text ScoreText;
+
+    //保存星星图片
     public UnityEngine.UI.Image[] Stars;
 
     private int starID = 0;
@@ -24,7 +30,7 @@ public class HUD : MonoBehaviour
     #region 方法们
 
     /// <summary>
-    /// 游戏开始时设置星星
+    /// 游戏开始时给星星图片设置序号
     /// </summary>
     void Start()
     {
@@ -52,15 +58,15 @@ public class HUD : MonoBehaviour
         //设置不同分数时现显示的星星
         int visiableStar = 0;
 
-        if (score >= level.Score1Star && score < level.Score2Star)
+        if (score >= _Level.Score1Star && score < _Level.Score2Star)
         {
             visiableStar = 1;
         }
-        else if (score >= level.Score2Star && score < level.Score3Star)
+        else if (score >= _Level.Score2Star && score < _Level.Score3Star)
         {
             visiableStar = 2;
         }
-        else if (score >= level.Score3Star) 
+        else if (score >= _Level.Score3Star) 
         {
             visiableStar = 3;
         }
