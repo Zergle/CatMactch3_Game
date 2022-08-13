@@ -26,7 +26,7 @@ public class HUD : MonoBehaviour
     //保存星星图片
     public UnityEngine.UI.Image[] Stars;
 
-    //星星序号
+    //星级
     private int starID = 0;
 
     #endregion
@@ -34,7 +34,7 @@ public class HUD : MonoBehaviour
     #region 方法们
 
     /// <summary>
-    /// 游戏开始时给星星图片设置序号
+    /// 游戏开始时给星星图片设置对应星级
     /// </summary>
     void Start()
     {
@@ -150,17 +150,18 @@ public class HUD : MonoBehaviour
     public void OnGameLose()
     {
         _GameOver.ShowLose();
-
-        if (starID > PlayerPrefs.GetInt(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name, 0))
-        {
-            PlayerPrefs.SetInt(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name, starID);
-        }
     }
 
     //游戏胜利时的行为
     public void OnGameWin(int score)
     {
         _GameOver.ShowWin(score, starID);
+
+        //游戏胜利后保存星级，如果游戏未结束不保存，如果新分数高于历史分数则保存新分数星级
+        if (starID > PlayerPrefs.GetInt(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name, 0))
+        {
+            PlayerPrefs.SetInt(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name, starID);
+        }
     }
 
     #endregion
