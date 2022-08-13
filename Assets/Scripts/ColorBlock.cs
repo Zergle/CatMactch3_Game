@@ -5,11 +5,12 @@ using UnityEngine;
 /// <summary>
 /// 存储元素花色，赋予元素花色
 /// </summary>
-public class ColorCat : MonoBehaviour
+public class ColorBlock : MonoBehaviour
 {
     #region 各种声明
     public enum ColorType
     {
+        //前几种均为猫的花色，因为项目素材用的是猫
         Cow,
         Calico,
         White,
@@ -17,11 +18,11 @@ public class ColorCat : MonoBehaviour
         Blue,
         WandY,
         Orange,
-        //用于匹配Any和统计Count
-        Any,
-        Count
+        Any, //用来匹配任意花色
+        Count //用来统计特定类型
     }
 
+    //链接预制件和Sprite
     [System.Serializable]
     public struct ColorSprite
     {
@@ -29,10 +30,13 @@ public class ColorCat : MonoBehaviour
         public Sprite Sprite;
     }
 
+    //结构保存为数组
     public ColorSprite[] ColorSprites;
 
+    //保存结构的字典
     private Dictionary<ColorType, Sprite> colorSpriteDict;
 
+    //设置花色属性，上色后返回花色值
     private ColorType color;
     public ColorType Color
     {
@@ -40,8 +44,10 @@ public class ColorCat : MonoBehaviour
         set { SetColor(value); }
     }
 
+    //保存SpriteRenderer用于替换
     private SpriteRenderer spriteRenderer;
 
+    //将数组ColorSprites的长度保存为花色的数量NumColors
     public int NumColors
     {
         get { return ColorSprites.Length; }
@@ -49,19 +55,21 @@ public class ColorCat : MonoBehaviour
 
     #endregion
 
+    #region 方法们
     /// <summary>
     /// 游戏启动时，将ColorSprites中的花色保存到字典
     /// </summary>
     private void Awake()
     {
+        //找到贴图Cat的SpriteRenderer
         spriteRenderer = transform.Find("Cat").GetComponent<SpriteRenderer>();
 
-        //遍历ColorSprites然后保存到字典
+        //将ColorSprites保存到字典，花色种类是键，Sprite是值
         colorSpriteDict = new Dictionary<ColorType, Sprite>();
 
         for(int i = 0; i < ColorSprites.Length; i++)
         {
-            if (!colorSpriteDict.ContainsKey(ColorSprites[i].Color))
+            if (!colorSpriteDict.ContainsKey(ColorSprites[i].Color)) 
             {
                 colorSpriteDict.Add(ColorSprites[i].Color, ColorSprites[i].Sprite);
             }
@@ -69,7 +77,7 @@ public class ColorCat : MonoBehaviour
     }
 
     /// <summary>
-    /// 给元素上色，从字典中获取指定的花色类型替换到元素身上
+    /// 给元素上色，从字典中获取指定花色对应的Sprite替换到元素身上
     /// </summary>
     /// <param name="newColor">花色类型</param>
     public void SetColor(ColorType newColor)
@@ -81,4 +89,6 @@ public class ColorCat : MonoBehaviour
             spriteRenderer.sprite = colorSpriteDict[newColor];
         }
     }
+
+    #endregion
 }

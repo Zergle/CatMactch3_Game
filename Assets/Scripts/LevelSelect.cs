@@ -8,11 +8,13 @@ using UnityEngine;
 public class LevelSelect : MonoBehaviour
 {
     #region 各种声明
+    
+    //给每个关卡键选择对应得关卡得分展示
     [System.Serializable]
     public struct ButtonPlayerPrefs
     {
-        public GameObject _GameObject;
-        public string PlayerPrefKey;
+        public GameObject _GameObject; //对应关卡的button
+        public string PlayerPrefKey; //对应关卡的名字
     }
 
     public ButtonPlayerPrefs[] Buttons;
@@ -22,7 +24,7 @@ public class LevelSelect : MonoBehaviour
     #region 方法们
 
     /// <summary>
-    /// 游戏开始时设置星星隐藏
+    /// 游戏开始时设置每个按钮星星的隐藏和显示（满足条件）
     /// </summary>
     private void Start()
     {
@@ -34,6 +36,7 @@ public class LevelSelect : MonoBehaviour
             {
                 Transform star = Buttons[i]._GameObject.transform.Find("Star" + starID);
 
+                //如果原有星级小于当前得分，则显示
                 if(starID <= score)
                 {
                     star.gameObject.SetActive(true);

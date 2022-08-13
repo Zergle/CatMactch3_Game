@@ -6,10 +6,13 @@ public class LevelMoves : Level
 {
     #region 各种声明
 
+    //可用步数
     public int NumMoves;
 
+    //目标分数
     public int TargetScore;
 
+    //已用步数
     private int movesUsed = 0;
 
     #endregion
@@ -17,7 +20,7 @@ public class LevelMoves : Level
     #region 方法们
 
     /// <summary>
-    /// 游戏开始时设置关卡类型，为HUD设置值
+    /// 游戏开始时设置关卡类型，设置星级分数，为HUD设置值
     /// </summary>
     void Start()
     {
@@ -25,7 +28,6 @@ public class LevelMoves : Level
 
         ScoreStar(TargetScore);
 
-        //给HUD设置值
         _HUD.SetLevelType(type);
 
         _HUD.SetScore(currentScore);
@@ -36,7 +38,7 @@ public class LevelMoves : Level
     }
 
     /// <summary>
-    /// 设置用户每次操作后的行为
+    /// 设置用户每次操作后的行为，更新分数，判定输赢
     /// </summary>
     public override void OnMove()
     {

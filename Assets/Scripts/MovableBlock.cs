@@ -5,11 +5,12 @@ using UnityEngine;
 /// <summary>
 /// 给元素添加可移动属性
 /// </summary>
-public class MovableCat : MonoBehaviour
+public class MovableBlock : MonoBehaviour
 {
     #region 各种声明
-    //cat用来保存GameCat的信息
-    private GameCat cat;
+
+    //block用来保存GameBlock的信息
+    private GameBlock block;
 
     //逐帧填充
     private IEnumerator moveCoroutine;
@@ -22,7 +23,7 @@ public class MovableCat : MonoBehaviour
     /// </summary>
     private void Awake()
     {
-        cat = GetComponent<GameCat>();
+        block = GetComponent<GameBlock>();
     }
 
     /// <summary>
@@ -44,7 +45,7 @@ public class MovableCat : MonoBehaviour
     }
 
     /// <summary>
-    /// 移动协程
+    /// 移动动画
     /// </summary>
     /// <param name="newX">将要移动到的位置newX</param>
     /// <param name="newY">将要移动到的位置newY</param>
@@ -52,20 +53,24 @@ public class MovableCat : MonoBehaviour
     /// <returns></returns>
     public IEnumerator MoveCoroutine(int newX, int newY, float time)
     {
+        //当前位置
         Vector3 startPos = transform.position;
-        Vector3 endPos = cat.GridRef.GetWorldPosition(newX, newY);
 
+        //目标位置
+        Vector3 endPos = block.GridRef.GetWorldPosition(newX, newY);
+
+        //在动画时长内进行交换动作
         for (float t = 0; t <= 1 * time; t += Time.deltaTime) 
         {
-            cat.X = newX;
-            cat.Y = newY;
+            block.X = newX;
+            block.Y = newY;
 
-            cat.transform.position = Vector3.Lerp(startPos, endPos, t / time);
+            block.transform.position = Vector3.Lerp(startPos, endPos, t / time);
 
             yield return 0;
         }
 
-        cat.transform.position = endPos;
+        block.transform.position = endPos;
     }
 
     #endregion

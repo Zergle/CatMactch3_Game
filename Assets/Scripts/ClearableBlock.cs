@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// 定义物体是否可被消除
 /// </summary>
-public class ClearableCat : MonoBehaviour
+public class ClearableBlock : MonoBehaviour
 {
     #region 各种声明
     public AnimationClip clearAnimation;
@@ -18,25 +18,26 @@ public class ClearableCat : MonoBehaviour
     }
 
     //调用GameCat信息
-    protected GameCat cat;
+    protected GameBlock block;
 
     #endregion
 
+    #region 方法们
     /// <summary>
     /// 游戏启动时获取GameCat信息保存到cat
     /// </summary>
     private void Awake()
     {
-        cat = GetComponent<GameCat>();
+        block = GetComponent<GameBlock>();
     }
 
     /// <summary>
-    /// 清除，isBeingCleared为真时调用ClearCoroutine()
+    /// 清除操作，清楚功能由ClearCoroutine()实现
     /// </summary>
     public virtual void Clear()
     {
-        //清除时将信息反馈到OnCatCleared()
-        cat.GridRef._Level.OnCatCleared(cat);
+        //清除时将信息反馈到OnBlockCleared()
+        block.GridRef._Level.OnBlockCleared(block);
 
         isBeingCleared = true;
 
@@ -44,9 +45,9 @@ public class ClearableCat : MonoBehaviour
     }
 
     /// <summary>
-    /// 消除协程，播放动画并销毁GameObject
+    /// 消除功能：播放动画，销毁GameObject
     /// </summary>
-    /// <returns></returns>
+    /// <returns>返回缓冲动画</returns>
     private IEnumerator ClearCoroutine()
     {
         Animator animator = GetComponent<Animator>();
@@ -60,4 +61,5 @@ public class ClearableCat : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    #endregion
 }

@@ -5,11 +5,11 @@ using UnityEngine;
 /// <summary>
 /// 游戏基本元素的各种属性
 /// </summary>
-public class GameCat : MonoBehaviour
+public class GameBlock : MonoBehaviour
 {
     #region 各种声明
 
-    //添加x,y属性
+    //x,y属性保存坐标，如果是可移动元素则产生允许接受移动坐标值
     private int x;
     public int X
     {
@@ -36,37 +36,37 @@ public class GameCat : MonoBehaviour
         }
     }
 
-    //添加type属性
-    private Grid.CatType type;
-    public Grid.CatType Type
+    //type属性保存元素类型
+    private Grid.BlockType type;
+    public Grid.BlockType Type
     {
         get { return type; }
     }
 
-    //引用Grid信息
+    //保存Grid信息
     private Grid grid;
     public Grid GridRef
     {
         get { return grid; }
     }
 
-    //是否可移动
-    private MovableCat movableComponent;
-    public MovableCat MovableComponent
+    //可移动属性
+    private MovableBlock movableComponent;
+    public MovableBlock MovableComponent
     {
         get { return movableComponent; }
     }
 
-    //是否上色
-    private ColorCat colorComponent;
-    public ColorCat ColorComponent
+    //花色属性
+    private ColorBlock colorComponent;
+    public ColorBlock ColorComponent
     {
         get { return colorComponent; }
     }
 
-    //是否可清除
-    private ClearableCat clearableComponent;
-    public ClearableCat ClearableComponent
+    //可清除属性
+    private ClearableBlock clearableComponent;
+    public ClearableBlock ClearableComponent
     {
         get { return clearableComponent; }
     }
@@ -82,22 +82,25 @@ public class GameCat : MonoBehaviour
     /// </summary>
     private void Awake()
     {
-        //移动
-        movableComponent = GetComponent<MovableCat>();
-        //花色
-        colorComponent = GetComponent<ColorCat>();
-        //清除
-        clearableComponent = GetComponent<ClearableCat>();
+        //移动组件
+        movableComponent = GetComponent<MovableBlock>();
+
+        //花色组件
+        colorComponent = GetComponent<ColorBlock>();
+
+        //清除组件
+        clearableComponent = GetComponent<ClearableBlock>();
+
     }
 
     /// <summary>
-    /// Init方法用来初始化来自Grid的变量，使用下划线进行区分
+    /// Init方法用来初始化来自Grid的变量，然后返回到属性
     /// </summary>
-    /// <param name="_x">生成的cat坐标的x</param>
-    /// <param name="_y">生成的cat坐标的y</param>
+    /// <param name="_x">生成的block坐标的x</param>
+    /// <param name="_y">生成的block坐标的y</param>
     /// <param name="_grid">棋盘信息</param>
-    /// <param name="_type">cat类型</param>
-    public void Init(int _x,int _y, Grid _grid, Grid.CatType _type)
+    /// <param name="_type">block类型</param>
+    public void Init(int _x,int _y, Grid _grid, Grid.BlockType _type)
     {
         x = _x;
         y = _y;
@@ -134,23 +137,23 @@ public class GameCat : MonoBehaviour
 
     #region 鼠标事件
     /// <summary>
-    /// 鼠标点击、悬停时，将grid类中的PressedCat和EnterCat变为当时点击、悬停的对象
-    /// 鼠标释放时，调用grid中的ReleaseCat()执行操作
+    /// 鼠标点击、悬停时，将grid类中的PressBlock和EnterBlock变为当时点击、悬停的对象
+    /// 鼠标释放时，调用grid中的ReleaseBlock()执行操作
     /// </summary>
 
     private void OnMouseDown()
     {
-        grid.PressCat(this);
+        grid.PressBlock(this);
     }
 
     private void OnMouseEnter()
     {
-        grid.EnterCat(this);
+        grid.EnterBlock(this);
     }
 
     private void OnMouseUp()
     {
-        grid.ReleaseCat(); 
+        grid.ReleaseBlock(); 
     }
 
     //可以尝试用射线实现点击互换

@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Texture/UI pack/Prefabs/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
+    path: Assets/Scenes/LevelSelect.unity
+    guid: c3246e63409ab7349baa43b1632b40d5
+  - enabled: 1
     path: Assets/Scenes/Level01.unity
     guid: a80826451d9230740b3c14777c9519c5
   - enabled: 1
@@ -17,7 +20,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Level03.unity
     guid: 8c5e54b5587db1440b63493760d198ad
-  - enabled: 1
-    path: Assets/Scenes/LevelSelect.unity
-    guid: c3246e63409ab7349baa43b1632b40d5
   m_configObjects: {}

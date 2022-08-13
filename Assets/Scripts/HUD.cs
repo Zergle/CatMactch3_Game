@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 设置HUD并更新内容
+/// </summary>
 public class HUD : MonoBehaviour
 {
     #region 各种声明
@@ -23,6 +26,7 @@ public class HUD : MonoBehaviour
     //保存星星图片
     public UnityEngine.UI.Image[] Stars;
 
+    //星级
     private int starID = 0;
 
     #endregion
@@ -30,7 +34,7 @@ public class HUD : MonoBehaviour
     #region 方法们
 
     /// <summary>
-    /// 游戏开始时给星星图片设置序号
+    /// 游戏开始时给星星图片设置对应星级
     /// </summary>
     void Start()
     {
@@ -55,7 +59,7 @@ public class HUD : MonoBehaviour
     {
         ScoreText.text = score.ToString();
 
-        //设置不同分数时现显示的星星
+        //不同分数时现显示的星星
         int visiableStar = 0;
 
         if (score >= _Level.Score1Star && score < _Level.Score2Star)
@@ -96,7 +100,7 @@ public class HUD : MonoBehaviour
     }
 
     /// <summary>
-    /// 将剩余的Time/Dogs/Moves转换为String并保存
+    /// 将剩余的Time/Obstacles/Moves转换为String并保存
     /// </summary>
     /// <param name="remaining">剩余的Time/Dogs/Moves</param>
     public void SetRemaining(int remaining)
@@ -140,19 +144,24 @@ public class HUD : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 游戏失败时的行为
+    /// </summary>
     public void OnGameLose()
     {
         _GameOver.ShowLose();
+    }
 
+    //游戏胜利时的行为
+    public void OnGameWin(int score)
+    {
+        _GameOver.ShowWin(score, starID);
+
+        //游戏胜利后保存星级，如果游戏未结束不保存，如果新分数高于历史分数则保存新分数星级
         if (starID > PlayerPrefs.GetInt(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name, 0))
         {
             PlayerPrefs.SetInt(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name, starID);
         }
-    }
-
-    public void OnGameWin(int score)
-    {
-        _GameOver.ShowWin(score, starID);
     }
 
     #endregion

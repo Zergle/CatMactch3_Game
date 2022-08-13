@@ -5,11 +5,13 @@ using UnityEngine;
 /// <summary>
 /// ClearableCat子类，给特殊元素清理整行整列的功能
 /// </summary>
-public class LineClear : ClearableCat
+public class LineClear : ClearableBlock
 {
     #region 各种声明
+
     //声明是否行消除
     public bool IsRow;
+
     #endregion
 
     /// <summary>
@@ -22,12 +24,12 @@ public class LineClear : ClearableCat
         if (IsRow)
         {
             //清除行
-            cat.GridRef.ClearRow(cat.Y);
+            block.GridRef.ClearRow(block.Y);
         }
         else
         {
             //清除列
-            cat.GridRef.ClearCol(cat.X);
+            block.GridRef.ClearCol(block.X);
         }
     }
 }
