@@ -29,10 +29,10 @@ public class LevelTimer : Level
         ScoreStar(TargetScore);
 
         //给HUD设置值
-        _HUD.SetLevelType(type);
-        _HUD.SetScore(currentScore);
-        _HUD.SetTarget(TargetScore);
-        _HUD.SetRemaining(string.Format("{0}:{1:00}", TimeLeft / 60, TimeLeft % 60));
+        _HUD.SetLevelType(type); //关卡类型
+        _HUD.SetScore(currentScore); //当前得分
+        _HUD.SetTarget(TargetScore); //目标分数
+        _HUD.SetRemaining(string.Format("{0}:{1:00}", TimeLeft / 60, TimeLeft % 60)); //剩余时间
     }
 
     /// <summary>

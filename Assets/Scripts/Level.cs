@@ -12,9 +12,9 @@ public class Level : MonoBehaviour
     //关卡类型
     public enum LevelType
     {
-        Timer,
-        Obstacle,
-        Moves
+        Timer, //限时关卡
+        Obstacle, //除障关卡
+        Moves //步数关卡
     }
 
     //引用Grid信息
@@ -81,10 +81,10 @@ public class Level : MonoBehaviour
     /// <summary>
     /// 更新分数，消除指定类型之后添加相应的分数
     /// </summary>
-    /// <param name="cat">参数是消除的元素类型</param>
-    public virtual void OnCatCleared(GameCat cat)
+    /// <param name="block">被消除的元素类型</param>
+    public virtual void OnBlockCleared(GameBlock block)
     {
-        currentScore += cat.Score;
+        currentScore += block.Score;
         _HUD.SetScore(currentScore);
     }
 
@@ -94,13 +94,13 @@ public class Level : MonoBehaviour
     /// <param name="targetScore">目标分数</param>
     public void ScoreStar(int target)
     {
-            Score1Star = target * 3 / 2;
-            Score2Star = target * 2;
-            Score3Star = target * 5 / 2;
+            Score1Star = target ;
+            Score2Star = target * 3 / 2;
+            Score3Star = target * 2;
     }
 
     /// <summary>
-    /// 游戏结束时的缓冲动画
+    /// 游戏结束时的缓冲动画，等待游戏填充完毕再显示面板
     /// </summary>
     /// <returns></returns>
     protected virtual IEnumerator WaitForGridFill()

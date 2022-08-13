@@ -16,11 +16,14 @@ public class LevelObstacles : Level
     //已走步数
     private int movesUsed = 0;
 
-    //设置障碍物数组，障碍物为Dog
-    public Grid.CatType[] ObstacleTypes;
+    //障碍物保存为数组
+    public Grid.BlockType[] ObstacleTypes;
 
-    //剩下的障碍物数量
+    //剩余障碍物数量
     private int numObstaclesLeft;
+
+    //步数奖励
+    public int movesBonus;
 
     #endregion
 
@@ -46,7 +49,7 @@ public class LevelObstacles : Level
     }
 
     /// <summary>
-    /// 玩家行动
+    /// 玩家行动和失败判定
     /// </summary>
     public override void OnMove()
     {
@@ -63,14 +66,15 @@ public class LevelObstacles : Level
     /// <summary>
     /// 剩余障碍物，如果原障碍物位置上的元素变成了可消除的类型，则障碍物-1
     /// </summary>
-    /// <param name="cat">消除的元素类型</param>
-    public override void OnCatCleared(GameCat cat)
+    /// <param name="block">消除的元素类型</param>
+    public override void OnBlockCleared(GameBlock block)
     {
-        base.OnCatCleared(cat);
+        base.OnBlockCleared(block);
         
+        //更新HUD信息和判定胜利
         for (int i = 0; i < ObstacleTypes.Length; i++)
         {
-            if (ObstacleTypes[i] == cat.Type)
+            if (ObstacleTypes[i] == block.Type)
             {
                 numObstaclesLeft--;
 
@@ -78,7 +82,7 @@ public class LevelObstacles : Level
                 
                 if (numObstaclesLeft == 0)
                 {
-                    currentScore += 10000 * (NumMoves - movesUsed);
+                    currentScore += movesBonus * (NumMoves - movesUsed);
 
                     _HUD.SetScore(currentScore);
                     
