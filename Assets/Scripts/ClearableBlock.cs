@@ -8,7 +8,10 @@ using UnityEngine;
 public class ClearableBlock : MonoBehaviour
 {
     #region 各种声明
+    //清除动画
     public AnimationClip ClearAnimation;
+
+    //无法清除动画
     public AnimationClip NotMatchAnimation;
 
     //声明被消除属性
@@ -63,6 +66,10 @@ public class ClearableBlock : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 无法清除时播放动画
+    /// </summary>
+    /// <param name="block">无法清除的Block</param>
     public void CantClear(GameBlock block)
     {
         if(block.Type == Grid.BlockType.Normal)

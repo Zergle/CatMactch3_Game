@@ -8,6 +8,7 @@ using UnityEngine;
 public class ColorClear : ClearableBlock
 {
     #region 各种声明
+
     //保存将要和ColorClear匹配的花色为属性
     private ColorBlock.ColorType bonusColor;
     public ColorBlock.ColorType BonusColor
