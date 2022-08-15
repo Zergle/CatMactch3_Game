@@ -10,6 +10,8 @@ public class Grid : MonoBehaviour
 {
     #region 各种声明
 
+    /*public AnimationClip NotMatchAnimation;*/
+
     ///游戏功能元素种类
     public enum BlockType
     {
@@ -28,9 +30,6 @@ public class Grid : MonoBehaviour
 
     //定义填充速度
     public float FillTime;
-
-    //判断某元素是否可以斜向下落
-    private bool inverse = false;
 
     //被点击的块pressedBlock和预交换的块enteredBlock
     private GameBlock pressedBlock;
@@ -216,11 +215,6 @@ public class Grid : MonoBehaviour
                 //保存当前遍历的位置
                 int x = loopX;
 
-                if (inverse)
-                {
-                    x = xDim - 1 - loopX;
-                }
-
                 GameBlock block = blocks[x, y];
 
                 if (block.IsMovable())
@@ -253,11 +247,6 @@ public class Grid : MonoBehaviour
                             {
                                 //需要填补的空缺位diagX
                                 int diagX = x + diag;
-
-                                if (inverse)
-                                {
-                                    diagX = x - diag;
-                                }
 
                                 //确保斜下方在棋盘内
                                 if (diagX >= 0 && diagX < xDim)
@@ -351,9 +340,6 @@ public class Grid : MonoBehaviour
 
             while (FillStep())
             {
-                //启用斜向填充
-                inverse = !inverse;
-
                 yield return new WaitForSeconds(FillTime);
             }
             needsRefill = ClearValidMatches();
@@ -388,7 +374,7 @@ public class Grid : MonoBehaviour
         }
 
     }
-    #endregion 三个鼠标状态事件
+    #endregion 
 
     /// <summary>
     /// 检查元素间是否相邻，判断两元素是否同轴且另一轴差值为1
@@ -466,7 +452,8 @@ public class Grid : MonoBehaviour
 
                 ClearValidMatches();
 
-                //当交换特殊元素时，涉及到的元素全部清除
+                #region Row/ColClear的清除功能
+
                 if (block1.Type == BlockType.RowClear || block1.Type == BlockType.ColClear)
                 {
                     ClearBlock(block1.X, block1.Y);
@@ -476,6 +463,8 @@ public class Grid : MonoBehaviour
                 {
                     ClearBlock(block2.X, block2.Y);
                 }
+
+                #endregion
 
                 //滑动后，将选项归零
                 pressedBlock = null;
@@ -490,6 +479,10 @@ public class Grid : MonoBehaviour
             {
                 blocks[block1.X, block1.Y] = block1;
                 blocks[block2.X, block2.Y] = block2;
+
+                //调用动画
+                block1.ClearableComponent.CantClear(block1);
+                block2.ClearableComponent.CantClear(block2);
             }
         }
     }

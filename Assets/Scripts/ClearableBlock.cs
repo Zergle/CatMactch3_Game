@@ -8,7 +8,8 @@ using UnityEngine;
 public class ClearableBlock : MonoBehaviour
 {
     #region 各种声明
-    public AnimationClip clearAnimation;
+    public AnimationClip ClearAnimation;
+    public AnimationClip NotMatchAnimation;
 
     //声明被消除属性
     private bool isBeingCleared = false;
@@ -17,14 +18,14 @@ public class ClearableBlock : MonoBehaviour
         get { return isBeingCleared; }
     }
 
-    //调用GameCat信息
+    //调用GameBlock信息
     protected GameBlock block;
 
     #endregion
 
     #region 方法们
     /// <summary>
-    /// 游戏启动时获取GameCat信息保存到cat
+    /// 游戏启动时获取GameBlock信息保存到block
     /// </summary>
     private void Awake()
     {
@@ -54,12 +55,24 @@ public class ClearableBlock : MonoBehaviour
 
         if (animator)
         {
-            animator.Play(clearAnimation.name);
+            animator.Play(ClearAnimation.name);
 
-            yield return new WaitForSeconds(clearAnimation.length);
+            yield return new WaitForSeconds(ClearAnimation.length);
 
             Destroy(gameObject);
         }
     }
+
+    public void CantClear(GameBlock block)
+    {
+        if(block.Type == Grid.BlockType.Normal)
+        {
+            Animator animator = GetComponent<Animator>();
+
+            animator.Play(NotMatchAnimation.name);
+        }
+        
+    }
+
     #endregion
 }

@@ -151,7 +151,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35e94025a14d9e446b67074fb5755f42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clearAnimation: {fileID: 7400000, guid: 82c4bd01c5ca586458e2b999aa5463c2, type: 2}
+  ClearAnimation: {fileID: 7400000, guid: 82c4bd01c5ca586458e2b999aa5463c2, type: 2}
+  NotMatchAnimation: {fileID: 7400000, guid: 3542c1a26f2512b428443fbee7526d17, type: 2}
 --- !u!114 &3035910022060165434
 MonoBehaviour:
   m_ObjectHideFlags: 0

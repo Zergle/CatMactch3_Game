@@ -9,7 +9,7 @@ public class LineClear : ClearableBlock
 {
     #region 各种声明
 
-    //声明是否行消除
+    //是否行消除
     public bool IsRow;
 
     #endregion

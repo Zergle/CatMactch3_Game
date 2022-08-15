@@ -589,10 +589,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 811145232, guid: fee7fa9d2648a8e43b4bce27259da94f, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 774665920779474611, guid: fee7fa9d2648a8e43b4bce27259da94f, type: 3}
       propertyPath: _Level
       value: 
       objectReference: {fileID: 207379075}
+    - target: {fileID: 2862554113672477313, guid: fee7fa9d2648a8e43b4bce27259da94f, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4156728224880950359, guid: fee7fa9d2648a8e43b4bce27259da94f, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6934331700766001504, guid: fee7fa9d2648a8e43b4bce27259da94f, type: 3}
       propertyPath: m_Name
       value: GameUICanvas

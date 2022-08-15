@@ -103,7 +103,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ae1e1df9062eda459481da7e9308871, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clearAnimation: {fileID: 7400000, guid: ee5355acd78545e40a84841ea483a164, type: 2}
+  ClearAnimation: {fileID: 7400000, guid: ee5355acd78545e40a84841ea483a164, type: 2}
+  NotMatchAnimation: {fileID: 7400000, guid: 3542c1a26f2512b428443fbee7526d17, type: 2}
 --- !u!95 &5568332606911983142
 Animator:
   serializedVersion: 4
