@@ -181,9 +181,29 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.64705884
       objectReference: {fileID: 0}
+    - target: {fileID: 935303971, guid: fee7fa9d2648a8e43b4bce27259da94f, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.5482346
+      objectReference: {fileID: 0}
+    - target: {fileID: 935303971, guid: fee7fa9d2648a8e43b4bce27259da94f, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.489996
+      objectReference: {fileID: 0}
+    - target: {fileID: 935303971, guid: fee7fa9d2648a8e43b4bce27259da94f, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.489996
+      objectReference: {fileID: 0}
+    - target: {fileID: 935303971, guid: fee7fa9d2648a8e43b4bce27259da94f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 85
+      objectReference: {fileID: 0}
+    - target: {fileID: 935303971, guid: fee7fa9d2648a8e43b4bce27259da94f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 45
+      objectReference: {fileID: 0}
     - target: {fileID: 935303972, guid: fee7fa9d2648a8e43b4bce27259da94f, type: 3}
       propertyPath: m_Type
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 935303972, guid: fee7fa9d2648a8e43b4bce27259da94f, type: 3}
       propertyPath: m_Sprite
@@ -197,6 +217,30 @@ PrefabInstance:
       propertyPath: _Level
       value: 
       objectReference: {fileID: 1464389280}
+    - target: {fileID: 2057233522898813873, guid: fee7fa9d2648a8e43b4bce27259da94f, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 1258ac417dd158a48b05eeedb739c469, type: 3}
+    - target: {fileID: 2862554113672477313, guid: fee7fa9d2648a8e43b4bce27259da94f, type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2862554113672477313, guid: fee7fa9d2648a8e43b4bce27259da94f, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 040be0e474e09894ca320b08d9462cc8, type: 3}
+    - target: {fileID: 2862554113672477313, guid: fee7fa9d2648a8e43b4bce27259da94f, type: 3}
+      propertyPath: m_Color.b
+      value: 0.8392157
+      objectReference: {fileID: 0}
+    - target: {fileID: 2862554113672477313, guid: fee7fa9d2648a8e43b4bce27259da94f, type: 3}
+      propertyPath: m_Color.g
+      value: 0.8117647
+      objectReference: {fileID: 0}
+    - target: {fileID: 2862554113672477313, guid: fee7fa9d2648a8e43b4bce27259da94f, type: 3}
+      propertyPath: m_Color.r
+      value: 0.64705884
+      objectReference: {fileID: 0}
     - target: {fileID: 4156728224880950359, guid: fee7fa9d2648a8e43b4bce27259da94f, type: 3}
       propertyPath: m_Type
       value: 0
@@ -233,6 +277,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 1258ac417dd158a48b05eeedb739c469, type: 3}
+    - target: {fileID: 6934331700100872582, guid: fee7fa9d2648a8e43b4bce27259da94f, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6934331700766001504, guid: fee7fa9d2648a8e43b4bce27259da94f, type: 3}
       propertyPath: m_Name
       value: GameUICanvas
@@ -369,6 +417,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 1258ac417dd158a48b05eeedb739c469, type: 3}
+    - target: {fileID: 6934331701299920106, guid: fee7fa9d2648a8e43b4bce27259da94f, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6934331701515603885, guid: fee7fa9d2648a8e43b4bce27259da94f, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.6873164
@@ -397,6 +449,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 1258ac417dd158a48b05eeedb739c469, type: 3}
+    - target: {fileID: 6934331701830333871, guid: fee7fa9d2648a8e43b4bce27259da94f, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fee7fa9d2648a8e43b4bce27259da94f, type: 3}
 --- !u!114 &141510182 stripped
@@ -473,11 +529,23 @@ MonoBehaviour:
   xDim: 9
   yDim: 9
   FillTime: 0.1
-  NumRandomObstacles: 0
   backgroundPrefab: {fileID: 3747710881366422177, guid: f62ef3f359730984c8b60cf62b6cab55, type: 3}
-  BlockPrefabs: []
+  BlockPrefabs:
+  - type: 6
+    prefab: {fileID: 5804992497190911608, guid: cadb0fe48fac04d41a7e09fabb2efd96, type: 3}
+  - type: 0
+    prefab: {fileID: 8078503057642114833, guid: 449f5a6f04976f045bc768512a43e9d7, type: 3}
+  - type: 1
+    prefab: {fileID: 5916091752128626188, guid: 34c43e8b1fd220b42a85308ad33b8007, type: 3}
+  - type: 2
+    prefab: {fileID: 7130811137875128729, guid: 9a72d6d94abce6246911a7b9cb138765, type: 3}
+  - type: 3
+    prefab: {fileID: 1612959442514476957, guid: 8132eb46b50f6dc4f87908f9a856e6b3, type: 3}
+  - type: 4
+    prefab: {fileID: 3305608864832716075, guid: 66d29fa207f5a274883fe9ed6328387a, type: 3}
   _Level: {fileID: 1464389280}
   InitialBlocks: []
+  RandomGenerate: 0
 --- !u!4 &446456307
 Transform:
   m_ObjectHideFlags: 0

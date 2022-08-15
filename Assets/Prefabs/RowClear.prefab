@@ -93,12 +93,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5503906692804052016}
-  - component: {fileID: 811659272605926501}
   - component: {fileID: 7686931590632706893}
   - component: {fileID: 4637508849465263689}
   - component: {fileID: 4526151166003078705}
   - component: {fileID: 4526151166003078710}
   - component: {fileID: -1152149334990598118}
+  - component: {fileID: 6890523314036729806}
   m_Layer: 0
   m_Name: RowClear
   m_TagString: Untagged
@@ -122,19 +122,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &811659272605926501
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1612959442514476957}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efb84cdf1310a1f4a8bb66de99d57cbe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Score: 600
 --- !u!114 &7686931590632706893
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,3 +217,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clearAnimation: {fileID: 7400000, guid: 4397e6bb625bf6e4fa6082aced660ab1, type: 2}
   IsRow: 1
+--- !u!114 &6890523314036729806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1612959442514476957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55e7e7d4ce1be024cb0b0674722c8c1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Score: 600

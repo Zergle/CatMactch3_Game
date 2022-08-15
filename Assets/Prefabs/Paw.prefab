@@ -9,12 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4104491319662398004}
-  - component: {fileID: 9211074192287058529}
   - component: {fileID: 2178246264439299401}
   - component: {fileID: 3804527215702853709}
   - component: {fileID: 5352464812536801333}
   - component: {fileID: 5536224208458787604}
   - component: {fileID: 5568332606911983142}
+  - component: {fileID: 297742643726615452}
   m_Layer: 0
   m_Name: Paw
   m_TagString: Untagged
@@ -38,19 +38,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9211074192287058529
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7130811137875128729}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efb84cdf1310a1f4a8bb66de99d57cbe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Score: 1000
 --- !u!114 &2178246264439299401
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,6 +124,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &297742643726615452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7130811137875128729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55e7e7d4ce1be024cb0b0674722c8c1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Score: 1000
 --- !u!1 &8701535963787581321
 GameObject:
   m_ObjectHideFlags: 0

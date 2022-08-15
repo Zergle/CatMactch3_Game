@@ -93,9 +93,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5916091752128626178}
-  - component: {fileID: 5916091752128626189}
   - component: {fileID: 1604530874}
   - component: {fileID: 9213884144290293875}
+  - component: {fileID: 3035910022060165434}
   m_Layer: 0
   m_Name: Dog
   m_TagString: Untagged
@@ -119,19 +119,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5916091752128626189
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5916091752128626188}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efb84cdf1310a1f4a8bb66de99d57cbe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Score: 500
 --- !u!95 &1604530874
 Animator:
   serializedVersion: 4
@@ -165,3 +152,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clearAnimation: {fileID: 7400000, guid: 82c4bd01c5ca586458e2b999aa5463c2, type: 2}
+--- !u!114 &3035910022060165434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5916091752128626188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55e7e7d4ce1be024cb0b0674722c8c1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Score: 500

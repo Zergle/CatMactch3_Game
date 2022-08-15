@@ -29,9 +29,6 @@ public class Grid : MonoBehaviour
     //定义填充速度
     public float FillTime;
 
-    //定义随机狗的数量
-    public int NumRandomObstacles;
-
     //判断某元素是否可以斜向下落
     private bool inverse = false;
 
@@ -84,6 +81,9 @@ public class Grid : MonoBehaviour
     //定义关卡开始时固定生成的元素类型和位置InitialBlocks
     public BlockPosition[] InitialBlocks;
 
+    //是否随机生成指定元素
+    public bool RandomGenerate;
+
     //保存需要Find的对象
     private GameObject objBGs;
     private GameObject objBlocks;
@@ -98,7 +98,7 @@ public class Grid : MonoBehaviour
     {
         //提前保存一些可能需要用到的元素
         objBGs = GameObject.Find("BGs");
-        objBlocks = GameObject.Find("Blocks");
+        objBlocks = GameObject.Find("GameBlocks");
 
         blockPrefabDict = new Dictionary<BlockType, GameObject>();
 
@@ -126,14 +126,26 @@ public class Grid : MonoBehaviour
         //遍历棋盘，添加空元素EmptyBlock，生成关卡预设元素，然后Fill填充其他游戏元素
         blocks = new GameBlock[xDim, yDim];
 
-        //在指定位置生成关卡指定的元素类型，之后再想办法做一个随机生成用于偷懒
+        //在指定或随机位置生成关卡指定的元素类型
         for(int i = 0; i < InitialBlocks.Length; i++)
         {
-            if (InitialBlocks[i].x >= 0 && InitialBlocks[i].x < xDim 
-                && InitialBlocks[i].y >= 0 && InitialBlocks[i].y < yDim) 
+            if (RandomGenerate)
+            {
+                System.Random initialPos = new System.Random();
+
+                InitialBlocks[i].x = initialPos.Next(blocks.GetLength(0));
+
+                InitialBlocks[i].y = initialPos.Next(blocks.GetLength(1));
+
+                SpawnNewBlock(InitialBlocks[i].x, InitialBlocks[i].y, InitialBlocks[i].type);
+
+            }else if (InitialBlocks[i].x >= 0 && InitialBlocks[i].x < xDim
+                && InitialBlocks[i].y >= 0 && InitialBlocks[i].y < yDim)
             {
                 SpawnNewBlock(InitialBlocks[i].x, InitialBlocks[i].y, InitialBlocks[i].type);
+
             }
+
         }
 
         //生成EmptyBlock
@@ -306,7 +318,7 @@ public class Grid : MonoBehaviour
 
                 GameObject newBlock = (GameObject)Instantiate(blockPrefabDict[BlockType.Normal], GetWorldPosition(x, -1), Quaternion.identity);
 
-                newBlock.transform.parent = GameObject.Find("Blocks").transform;
+                newBlock.transform.parent = objBlocks.transform;
 
                 blocks[x, 0] = newBlock.GetComponent<GameBlock>();
 

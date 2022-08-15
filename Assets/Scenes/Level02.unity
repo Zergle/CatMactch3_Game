@@ -253,11 +253,38 @@ MonoBehaviour:
   xDim: 9
   yDim: 9
   FillTime: 0.1
-  NumRandomObstacles: 0
   backgroundPrefab: {fileID: 3747710881366422177, guid: db57f39d3cacd024eb53af0a31aecc00, type: 3}
-  BlockPrefabs: []
+  BlockPrefabs:
+  - type: 6
+    prefab: {fileID: 5804992497190911608, guid: cadb0fe48fac04d41a7e09fabb2efd96, type: 3}
+  - type: 0
+    prefab: {fileID: 8078503057642114833, guid: 449f5a6f04976f045bc768512a43e9d7, type: 3}
+  - type: 1
+    prefab: {fileID: 5916091752128626188, guid: 34c43e8b1fd220b42a85308ad33b8007, type: 3}
+  - type: 2
+    prefab: {fileID: 7130811137875128729, guid: 9a72d6d94abce6246911a7b9cb138765, type: 3}
+  - type: 3
+    prefab: {fileID: 1612959442514476957, guid: 8132eb46b50f6dc4f87908f9a856e6b3, type: 3}
+  - type: 4
+    prefab: {fileID: 3305608864832716075, guid: 66d29fa207f5a274883fe9ed6328387a, type: 3}
   _Level: {fileID: 1464389277}
-  InitialBlocks: []
+  InitialBlocks:
+  - type: 1
+    x: 0
+    y: 0
+  - type: 1
+    x: 0
+    y: 0
+  - type: 1
+    x: 0
+    y: 0
+  - type: 1
+    x: 0
+    y: 0
+  - type: 1
+    x: 0
+    y: 0
+  RandomGenerate: 1
 --- !u!4 &446456307
 Transform:
   m_ObjectHideFlags: 0
@@ -588,12 +615,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Grid: {fileID: 446456306}
-  Score1Star: 100000
-  Score2Star: 120000
-  Score3Star: 150000
+  Score1Star: 1500
+  Score2Star: 2000
+  Score3Star: 4000
   _HUD: {fileID: 1660278037}
   NumMoves: 17
   ObstacleTypes: 01000000
+  movesBonus: 1000
 --- !u!4 &1464389279
 Transform:
   m_ObjectHideFlags: 0

@@ -152,7 +152,10 @@ public class HUD : MonoBehaviour
         _GameOver.ShowLose();
     }
 
-    //游戏胜利时的行为
+    /// <summary>
+    /// 游戏胜利时的行为
+    /// </summary>
+    /// <param name="score">得分</param>
     public void OnGameWin(int score)
     {
         _GameOver.ShowWin(score, starID);
@@ -163,6 +166,5 @@ public class HUD : MonoBehaviour
             PlayerPrefs.SetInt(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name, starID);
         }
     }
-
     #endregion
 }
